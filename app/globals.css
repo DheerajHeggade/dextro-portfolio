@@ -3944,3 +3944,146 @@ img {
     transition: none;
   }
 }
+/* =========================================================
+   DEXTRO — MOBILE PERFORMANCE MODE
+   Keeps the visual design, reduces GPU/paint workload.
+========================================================= */
+
+@media (max-width: 700px) {
+
+  /* -------------------------------------------------------
+     1. Disable expensive continuous atmospheric animation
+  ------------------------------------------------------- */
+
+  .ambient-orb-one,
+  .ambient-orb-two,
+  .ambient-orb-three,
+  .orb-one,
+  .orb-two {
+    animation: none !important;
+  }
+
+
+  /* -------------------------------------------------------
+     2. Make background atmosphere cheaper
+  ------------------------------------------------------- */
+
+  .orb {
+    filter: blur(70px);
+    opacity: 0.08;
+  }
+
+
+  /* -------------------------------------------------------
+     3. Remove expensive backdrop blur from heavy elements
+        while keeping the glass appearance
+  ------------------------------------------------------- */
+
+  .youtube-open-button,
+  .youtube-project-number,
+  .youtube-muted-indicator,
+  .custom-video-play {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+
+    background: rgba(15, 15, 15, 0.72);
+  }
+
+
+  /* -------------------------------------------------------
+     4. YouTube cards
+  ------------------------------------------------------- */
+
+  .youtube-project-card {
+    contain: layout paint;
+  }
+
+  .youtube-project-image {
+    contain: layout paint;
+  }
+
+  .youtube-player {
+    contain: strict;
+  }
+
+
+  /* -------------------------------------------------------
+     5. Don't animate heavy video glow on phones
+  ------------------------------------------------------- */
+
+  .video-ambient-glow {
+    animation: none !important;
+    transition: opacity 0.25s ease;
+  }
+
+
+  /* -------------------------------------------------------
+     6. Simplify project hover effects
+        Phones don't have real hover anyway.
+  ------------------------------------------------------- */
+
+  .youtube-project-card:hover {
+    transform: none !important;
+  }
+
+  .youtube-project-card:hover .video-ambient-glow {
+    opacity: 0.5;
+  }
+
+
+  /* -------------------------------------------------------
+     7. Reduce expensive shadows
+  ------------------------------------------------------- */
+
+  .youtube-project-card,
+  .youtube-player {
+    box-shadow: none;
+  }
+
+
+  /* -------------------------------------------------------
+     8. Keep scrolling smooth
+  ------------------------------------------------------- */
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    overscroll-behavior-x: none;
+  }
+
+
+  /* -------------------------------------------------------
+     9. Prevent accidental GPU promotion everywhere
+  ------------------------------------------------------- */
+
+  .youtube-project-card,
+  .youtube-project-image,
+  .youtube-player,
+  .youtube-glass-overlay {
+    will-change: auto;
+  }
+}
+
+
+/* =========================================================
+   DEXTRO — VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 430px) {
+
+  .orb {
+    filter: blur(55px);
+    opacity: 0.06;
+  }
+
+  .youtube-project-card {
+    contain: layout paint;
+  }
+
+  .youtube-glass-overlay {
+    box-shadow: none;
+  }
+
+}

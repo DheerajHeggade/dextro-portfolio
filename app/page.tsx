@@ -544,8 +544,6 @@ export default function Home() {
 
                   </motion.div>
 
-                  <div className="about-actions">
-
                   <motion.div
                     className="creative-collaboration"
                     initial={{
@@ -610,8 +608,6 @@ export default function Home() {
                       ↗
                     </span>
                   </motion.button>
-
-                  </div>
 
                 </div>
 
@@ -1572,17 +1568,13 @@ function YouTubeProject({
 }: {
   project: Project;
 }) {
-  const containerRef =
-    useRef<HTMLDivElement | null>(null);
-
   const playerRef =
-    useRef<YouTubePlayer | null>(null);
+    useRef<YouTubePlayer | null>(
+      null
+    );
 
   const playerContainerId =
     `youtube-player-${project.id}`;
-
-  const [isNearViewport, setIsNearViewport] =
-    useState(false);
 
   const [isPlaying, setIsPlaying] =
     useState(false);
@@ -1594,70 +1586,59 @@ function YouTubeProject({
     useState(false);
 
   /*
-   * PERFORMANCE:
-   * The YouTube iframe is not created when the page first
-   * mounts. It is created only when this card is close to
-   * the viewport, then paused when it leaves the viewport.
-   *
-   * This keeps the initial page much lighter on CPU/GPU,
-   * especially on laptops.
+   * Mobile performance mode:
+   * phones show the YouTube thumbnail first and do not
+   * create the YouTube iframe until the visitor taps Play.
    */
+  const [isMobile, setIsMobile] =
+    useState(
+      () =>
+        typeof window !== "undefined" &&
+        window.matchMedia("(max-width: 700px)").matches
+    );
+
+  const [userActivated, setUserActivated] =
+    useState(false);
+
   useEffect(() => {
-    const element = containerRef.current;
+    const mediaQuery =
+      window.matchMedia("(max-width: 700px)");
 
-    if (!element) {
-      return;
-    }
+    const handleChange = () => {
+      setIsMobile(mediaQuery.matches);
+    };
 
-    const observer =
-      new IntersectionObserver(
-        ([entry]) => {
-          const near =
-            entry.isIntersecting;
+    handleChange();
 
-          setIsNearViewport(near);
-
-          if (!near) {
-            /*
-             * Release the iframe when the card is no longer
-             * close to the viewport. This is more aggressive
-             * than simply pausing it and keeps long Work pages
-             * lightweight after scrolling.
-             */
-            if (playerRef.current) {
-              playerRef.current.destroy();
-              playerRef.current = null;
-            }
-
-            setIsLoaded(false);
-            setIsPlaying(false);
-          }
-        },
-        {
-          root: null,
-          rootMargin: "500px 0px",
-          threshold: 0.01,
-        }
-      );
-
-    observer.observe(element);
+    mediaQuery.addEventListener(
+      "change",
+      handleChange
+    );
 
     return () => {
-      observer.disconnect();
+      mediaQuery.removeEventListener(
+        "change",
+        handleChange
+      );
     };
   }, []);
 
-  /*
-   * PERFORMANCE:
-   * YouTube's API is loaded only after the card becomes
-   * relevant to the viewport.
-   */
-  useEffect(() => {
-    if (!isNearViewport) {
-      return;
-    }
+  /* =======================================================
+     YOUTUBE PLAYER
+  ======================================================= */
 
+  useEffect(() => {
     let cancelled = false;
+
+    /*
+     * On phones, do not load the YouTube API or create an
+     * iframe until the visitor explicitly presses Play.
+     */
+    if (isMobile && !userActivated) {
+      return () => {
+        cancelled = true;
+      };
+    }
 
     const createPlayer = () => {
       if (
@@ -1685,22 +1666,39 @@ function YouTubeProject({
               rel: 0,
               modestbranding: 1,
               iv_load_policy: 3,
-              start: project.start,
+
+              start:
+                project.start,
+
               loop: 1,
+
               playlist:
                 project.youtubeId,
+
               origin:
                 window.location.origin,
             },
 
             events: {
-              onReady: (event) => {
+
+              /* =========================================
+                 READY
+              ========================================= */
+
+              onReady: (
+                event
+              ) => {
                 if (cancelled) {
                   return;
                 }
 
                 setIsLoaded(true);
                 setHasError(false);
+
+                /*
+                 * Muted autoplay is required
+                 * for browser autoplay policies.
+                 */
 
                 event.target.mute();
 
@@ -1712,7 +1710,13 @@ function YouTubeProject({
                 event.target.playVideo();
               },
 
-              onStateChange: (event) => {
+              /* =========================================
+                 STATE CHANGE
+              ========================================= */
+
+              onStateChange: (
+                event
+              ) => {
                 if (
                   cancelled ||
                   !window.YT
@@ -1753,6 +1757,10 @@ function YouTubeProject({
                 }
               },
 
+              /* =========================================
+                 ERROR
+              ========================================= */
+
               onError: () => {
                 if (cancelled) {
                   return;
@@ -1762,6 +1770,7 @@ function YouTubeProject({
                 setIsPlaying(false);
                 setIsLoaded(true);
               },
+
             },
           }
         );
@@ -1782,58 +1791,73 @@ function YouTubeProject({
 
     return () => {
       cancelled = true;
-    };
-  }, [
-    isNearViewport,
-    playerContainerId,
-    project.youtubeId,
-    project.start,
-  ]);
 
-  /*
-   * Clean up the iframe when the component itself is
-   * removed, e.g. when switching from Work to About.
-   */
-  useEffect(() => {
-    return () => {
       if (playerRef.current) {
         playerRef.current.destroy();
         playerRef.current = null;
       }
     };
-  }, []);
+  }, [
+    isMobile,
+    userActivated,
+    playerContainerId,
+    project.youtubeId,
+    project.start,
+  ]);
 
-  const handleManualPlay = () => {
-    if (!playerRef.current) {
-      return;
-    }
+  /* =======================================================
+     MANUAL PLAY
+  ======================================================= */
 
-    setHasError(false);
+  const handleManualPlay =
+    () => {
+      /*
+       * First tap on mobile activates the YouTube player.
+       * The effect above then creates the iframe and the
+       * onReady handler starts the video.
+       */
+      if (isMobile && !userActivated) {
+        setUserActivated(true);
+        setHasError(false);
+        return;
+      }
 
-    playerRef.current.mute();
+      if (!playerRef.current) {
+        return;
+      }
 
-    playerRef.current.seekTo(
-      project.start,
-      true
-    );
+      setHasError(false);
 
-    playerRef.current.playVideo();
-  };
+      playerRef.current.mute();
+
+      playerRef.current.seekTo(
+        project.start,
+        true
+      );
+
+      playerRef.current.playVideo();
+    };
 
   return (
     <motion.article
-      ref={containerRef}
       className="project-card youtube-project-card"
+
       whileHover={{
         y: -6,
         scale: 1.008,
       }}
+
       transition={{
         type: "spring",
         stiffness: 280,
         damping: 24,
       }}
     >
+
+      {/* ===================================================
+          VIDEO
+      =================================================== */}
+
       <div
         className="project-image youtube-project-image"
         style={
@@ -1844,12 +1868,13 @@ function YouTubeProject({
           } as CSSProperties
         }
       >
+
+        {/* =================================================
+            CINEMATIC AMBIENT GLOW
+        ================================================= */}
+
         <div
-          className={`video-ambient-glow ${
-            isNearViewport
-              ? "is-active"
-              : ""
-          }`}
+          className="video-ambient-glow"
           aria-hidden="true"
         >
           <div className="ambient-orb ambient-orb-one" />
@@ -1857,44 +1882,92 @@ function YouTubeProject({
           <div className="ambient-orb ambient-orb-three" />
         </div>
 
+        {/* =================================================
+            MOBILE THUMBNAIL / POSTER
+        ================================================= */}
+
+        <img
+          src={`https://i.ytimg.com/vi/${project.youtubeId}/hqdefault.jpg`}
+          alt=""
+          aria-hidden="true"
+          className="youtube-mobile-thumbnail"
+          style={{
+            opacity:
+              isMobile && !userActivated
+                ? 1
+                : 0,
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* =================================================
+            YOUTUBE PLAYER
+        ================================================= */}
+
         <div
           id={playerContainerId}
           className="youtube-player"
         />
+
+        {/* =================================================
+            GLASS VISUAL LAYER
+        ================================================= */}
 
         <div
           className="youtube-glass-overlay"
           aria-hidden="true"
         />
 
+        {/* =================================================
+            PROJECT NUMBER
+        ================================================= */}
+
         <div className="youtube-project-number">
           {project.id}
         </div>
+
+        {/* =================================================
+            MUTED INDICATOR
+        ================================================= */}
 
         <div className="youtube-muted-indicator">
           ● MUTED
         </div>
 
-        {isNearViewport &&
-          !isPlaying &&
+        {/* =================================================
+            AUTOPLAY FALLBACK
+        ================================================= */}
+
+        {((isMobile && !userActivated) ||
+          (!isMobile && !isPlaying)) &&
           !hasError && (
-            <div className="youtube-autoplay-cover">
-              <button
-                type="button"
-                className="custom-video-play"
-                onClick={handleManualPlay}
-                aria-label="Play project"
-              >
-                <span aria-hidden="true">
-                  ▶
-                </span>
-              </button>
-            </div>
-          )}
+          <div className="youtube-autoplay-cover">
+
+            <button
+              type="button"
+              className="custom-video-play"
+              onClick={
+                handleManualPlay
+              }
+              aria-label="Play project"
+            >
+              <span aria-hidden="true">
+                ▶
+              </span>
+            </button>
+
+          </div>
+        )}
+
+        {/* =================================================
+            VIDEO ERROR
+        ================================================= */}
 
         {hasError && (
           <div className="youtube-error-cover">
+
             <div className="youtube-error-content">
+
               <span>
                 VIDEO UNAVAILABLE
               </span>
@@ -1902,13 +1975,21 @@ function YouTubeProject({
               <button
                 type="button"
                 className="youtube-error-play"
-                onClick={handleManualPlay}
+                onClick={
+                  handleManualPlay
+                }
               >
                 RETRY ↻
               </button>
+
             </div>
+
           </div>
         )}
+
+        {/* =================================================
+            YOUTUBE LINK
+        ================================================= */}
 
         <a
           href={project.youtubeUrl}
@@ -1917,6 +1998,7 @@ function YouTubeProject({
           className="youtube-open-button"
           aria-label={`Watch ${project.title} on YouTube`}
         >
+
           <span className="youtube-icon">
             ▶
           </span>
@@ -1928,18 +2010,30 @@ function YouTubeProject({
           <span aria-hidden="true">
             ↗
           </span>
+
         </a>
 
-        {isNearViewport &&
+        {/* =================================================
+            LOADING
+        ================================================= */}
+
+        {(!isMobile || userActivated) &&
           !isLoaded && (
             <div className="youtube-loading">
               LOADING
             </div>
           )}
+
       </div>
 
+      {/* ===================================================
+          PROJECT INFORMATION
+      =================================================== */}
+
       <div className="project-info">
+
         <div>
+
           <span className="project-number">
             {project.id}
           </span>
@@ -1951,6 +2045,7 @@ function YouTubeProject({
           <p>
             {project.category}
           </p>
+
         </div>
 
         <span
@@ -1959,8 +2054,9 @@ function YouTubeProject({
         >
           ↗
         </span>
+
       </div>
+
     </motion.article>
   );
 }
-
