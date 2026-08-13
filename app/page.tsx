@@ -372,18 +372,88 @@ export default function Home() {
     useState(0);
 
   useEffect(() => {
-    const returnSection =
-      window.sessionStorage.getItem(
-        "dextro-review-return"
+    let mounted = true;
+
+    const restoreReviewAfterAuth = async () => {
+      const returnSection =
+        window.sessionStorage.getItem(
+          "dextro-review-return"
+        );
+
+      /*
+       * If Google returned a PKCE authorization code,
+       * exchange it explicitly. This makes the OAuth flow
+       * reliable even when the browser does not automatically
+       * finish the callback before React mounts.
+       */
+      const url = new URL(window.location.href);
+      const code = url.searchParams.get("code");
+
+      if (code) {
+        const { error } =
+          await supabase.auth.exchangeCodeForSession(
+            code
+          );
+
+        if (error) {
+          console.error(
+            "OAuth callback error:",
+            error
+          );
+        } else {
+          url.searchParams.delete("code");
+          window.history.replaceState(
+            {},
+            document.title,
+            url.pathname +
+              url.search +
+              url.hash
+          );
+        }
+      }
+
+      if (!mounted) {
+        return;
+      }
+
+      if (returnSection === "review" || code) {
+        window.sessionStorage.removeItem(
+          "dextro-review-return"
+        );
+
+        setActive("review");
+      }
+    };
+
+    void restoreReviewAfterAuth();
+
+    /*
+     * Catch the SIGNED_IN event at page level so Review is
+     * restored even if Supabase finishes OAuth after the
+     * initial render.
+     */
+    const {
+      data: { subscription },
+    } =
+      supabase.auth.onAuthStateChange(
+        (event) => {
+          if (
+            mounted &&
+            event === "SIGNED_IN"
+          ) {
+            window.sessionStorage.removeItem(
+              "dextro-review-return"
+            );
+
+            setActive("review");
+          }
+        }
       );
 
-    if (returnSection === "review") {
-      window.sessionStorage.removeItem(
-        "dextro-review-return"
-      );
-
-      setActive("review");
-    }
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const handlePortraitMove = (
@@ -1102,11 +1172,13 @@ function ReviewSection() {
   useEffect(() => {
     let mounted = true;
 
-    type Session = Awaited<
-      ReturnType<typeof supabase.auth.getSession>
-    >["data"]["session"];
-
-    const applySession = (session: Session) => {
+    const applySession = (
+      session: Awaited<
+        ReturnType<
+          typeof supabase.auth.getSession
+        >
+      >["data"]["session"]
+    ) => {
       if (!mounted) {
         return;
       }
@@ -1160,7 +1232,6 @@ function ReviewSection() {
       }
 
       applySession(data.session);
-
       await loadReviews();
 
       if (mounted) {
@@ -1170,11 +1241,6 @@ function ReviewSection() {
 
     void initialize();
 
-    /*
-     * Keep this callback synchronous.
-     * Supabase auth events are handled here, while
-     * database work is scheduled outside the callback.
-     */
     const {
       data: { subscription },
     } =
@@ -1188,7 +1254,6 @@ function ReviewSection() {
 
           if (
             event === "SIGNED_IN" ||
-            event === "INITIAL_SESSION" ||
             event === "SIGNED_OUT"
           ) {
             setTimeout(() => {
@@ -1218,12 +1283,17 @@ function ReviewSection() {
     );
 
     const {
+      data,
       error,
     } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo:
           window.location.origin,
+        queryParams: {
+          access_type: "offline",
+          prompt: "select_account",
+        },
       },
     });
 
@@ -1240,6 +1310,18 @@ function ReviewSection() {
       setMessage(
         error.message ||
           "Google sign-in could not be started."
+      );
+
+      return;
+    }
+
+    if (!data?.url) {
+      window.sessionStorage.removeItem(
+        "dextro-review-return"
+      );
+
+      setMessage(
+        "Google sign-in could not be started."
       );
     }
   };
@@ -1321,17 +1403,17 @@ function ReviewSection() {
         <div>
 
           <p className="eyebrow">
-            YOUR EXPERIENCE MATTERS
+            CLIENT FEEDBACK
           </p>
 
           <h2>
-            REVIEW
+            YOUR TAKE.
           </h2>
 
           <p className="review-description">
-            Rate the work and leave a
-            short review. Maximum
-            50 words.
+            Seen the work? Tell me what
+            you think. A quick rating and
+            a short note is all it takes.
           </p>
 
         </div>
@@ -1346,11 +1428,11 @@ function ReviewSection() {
 
               <div>
                 <p className="review-login-title">
-                  SHARE YOUR EXPERIENCE
+                  LEAVE A REVIEW
                 </p>
 
                 <p className="review-login-copy">
-                  Sign in with Google to leave a review.
+                  Sign in securely with Google to share your feedback.
                 </p>
               </div>
 
@@ -1370,7 +1452,7 @@ function ReviewSection() {
                 </span>
 
                 <span>
-                  CONTINUE WITH GOOGLE
+                  Continue with Google
                 </span>
 
                 <span aria-hidden="true">
@@ -1413,6 +1495,10 @@ function ReviewSection() {
                 >
                   SIGN OUT
                 </button>
+              </div>
+
+              <div className="review-field-label">
+                YOUR RATING
               </div>
 
               <div
@@ -1460,6 +1546,10 @@ function ReviewSection() {
 
               </div>
 
+              <div className="review-field-label review-message-label">
+                YOUR MESSAGE
+              </div>
+
               <textarea
                 value={review}
                 onChange={(event) =>
@@ -1503,7 +1593,7 @@ function ReviewSection() {
                   <span>
                     {submitting
                       ? "POSTING..."
-                      : "POST REVIEW"}
+                      : "PUBLISH REVIEW"}
                   </span>
 
                   <span aria-hidden="true">
