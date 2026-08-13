@@ -1161,7 +1161,18 @@ function ReviewSection() {
           );
 
           if (mounted && data) {
-            setOwnedReviewIds(data as string[]);
+            const ids = (data as Array<string | { review_id?: string }>)
+              .map((row) =>
+                typeof row === "string"
+                  ? row
+                  : row?.review_id
+              )
+              .filter(
+                (id): id is string =>
+                  typeof id === "string" && id.length > 0
+              );
+
+            setOwnedReviewIds(ids);
           }
         }
 
@@ -1318,22 +1329,7 @@ function ReviewSection() {
 
     return existing;
   };
-
-  const getEditToken = () => {
-    if (typeof window === "undefined") {
-      return null;
-    }
-
-    const key = "dextro-review-edit-token";
-    let existing = window.localStorage.getItem(key);
-
-    if (!existing) {
-      existing = crypto.randomUUID();
-      window.localStorage.setItem(key, existing);
-    }
-
-    return existing;
-  };
+  const getEditToken = () => null;
 
   const resetReviewForm = () => {
     setEditingId(null);
@@ -1364,12 +1360,6 @@ function ReviewSection() {
       return;
     }
 
-    const token = getEditToken();
-    if (!token) {
-      setMessage("Could not verify review ownership.");
-      return;
-    }
-
     setDeletingId(id);
     setMessage("");
 
@@ -1377,7 +1367,6 @@ function ReviewSection() {
       "delete_review",
       {
         p_review_id: id,
-        p_edit_token: token,
       }
     );
 
@@ -1418,20 +1407,12 @@ function ReviewSection() {
     setMessage("");
 
     const visitorId = getVisitorId();
-    const editToken = getEditToken();
-
-    if (!visitorId || !editToken) {
-      setMessage("Could not prepare your review. Please try again.");
-      setSubmitting(false);
-      return;
-    }
 
     if (editingId) {
       const { error } = await supabase.rpc(
         "update_review",
         {
           p_review_id: editingId,
-          p_edit_token: editToken,
           p_user_name: cleanName,
           p_rating: rating,
           p_review: review.trim(),
@@ -1462,7 +1443,6 @@ function ReviewSection() {
     } = await supabase.rpc(
       "create_review",
       {
-        p_edit_token: editToken,
         p_user_id: visitorId,
         p_user_name: cleanName,
         p_rating: rating,
@@ -1495,20 +1475,6 @@ function ReviewSection() {
     );
 
     await loadReviews();
-
-    if (editToken) {
-      const { data: ownedIds } = await supabase.rpc(
-        "get_owned_review_ids",
-        { p_edit_token: editToken }
-      );
-
-      if (ownedIds) {
-        setOwnedReviewIds(
-          (ownedIds as Array<{ review_id: string }>)
-            .map((row) => row.review_id)
-        );
-      }
-    }
 
     setSubmitting(false);
   };
