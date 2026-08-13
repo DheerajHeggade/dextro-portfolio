@@ -1,993 +1,3946 @@
 @import "tailwindcss";
 
 /* =========================================================
-   ROOT & TOKENS
+   DEXTRO — PREMIUM LIQUID GLASS OS
 ========================================================= */
 
 :root {
   --black: #050505;
   --white: #f5f5f5;
-  --muted: rgba(255, 255, 255, 0.46);
-  --border: rgba(255, 255, 255, 0.14);
-  
-  /* Restrained accent for active states (from design brief) */
-  --accent: rgba(229, 107, 51, 0.85); 
+
+  --muted:
+    rgba(255, 255, 255, 0.46);
+
+  --glass-light:
+    rgba(255, 255, 255, 0.085);
+
+  --glass-mid:
+    rgba(255, 255, 255, 0.045);
+
+  --glass-dark:
+    rgba(10, 10, 10, 0.55);
+
+  --border:
+    rgba(255, 255, 255, 0.14);
+
+  --border-soft:
+    rgba(255, 255, 255, 0.09);
 }
 
+
 /* =========================================================
-   RESET & OS LEVEL STYLING
+   RESET
 ========================================================= */
 
 * {
   box-sizing: border-box;
 }
 
-html,
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  min-height: 100%;
-}
 
-body {
-  background: var(--black);
-  color: var(--white);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  
-  /* Premium Typography Rendering */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
+  min-height: 100vh;
 
-/* Custom Text Selection */
-::selection {
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-}
+  background:
+    var(--black);
 
-/* Custom OS-Style Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  color:
+    var(--white);
+
+  font-family:
+    var(--font-geist-sans),
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  overflow-x:
+    hidden;
 }
 
 button,
-textarea {
+textarea,
+input {
   font: inherit;
 }
 
 button {
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color:
+    transparent;
 }
 
+button:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline:
+    1px solid
+    rgba(255, 255, 255, 0.55);
+
+  outline-offset:
+    3px;
+}
+
+img {
+  max-width:
+    100%;
+
+  display:
+    block;
+}
+
+
 /* =========================================================
-   MAIN DEXTRO OS
+   MAIN OS
 ========================================================= */
 
 .dextro-os {
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 25px;
+  min-height:
+    100vh;
+
+  position:
+    relative;
+
+  overflow:
+    hidden;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  padding:
+    25px;
+
   background:
-    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.055), transparent 38%),
-    radial-gradient(circle at 15% 90%, rgba(255, 255, 255, 0.025), transparent 30%),
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(255, 255, 255, 0.055),
+      transparent 38%
+    ),
+
+    radial-gradient(
+      circle at 15% 90%,
+      rgba(255, 255, 255, 0.025),
+      transparent 30%
+    ),
+
     #050505;
 }
 
+
 /* =========================================================
-   ATMOSPHERIC NOISE
+   NOISE
 ========================================================= */
 
 .os-noise {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.045;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.7) 0.5px, transparent 0.5px);
-  background-size: 4px 4px;
-  mix-blend-mode: overlay;
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  pointer-events:
+    none;
+
+  z-index:
+    1;
+
+  opacity:
+    0.045;
+
+  background-image:
+    radial-gradient(
+      rgba(255, 255, 255, 0.7)
+      0.5px,
+      transparent 0.5px
+    );
+
+  background-size:
+    4px 4px;
+
+  mix-blend-mode:
+    overlay;
 }
 
+
 /* =========================================================
-   MOVING LIGHT
+   AMBIENT ORBS
 ========================================================= */
 
 .orb {
-  position: fixed;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  filter: blur(120px);
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.15;
-  will-change: transform; /* GPU Optimization */
+  position:
+    fixed;
+
+  width:
+    420px;
+
+  height:
+    420px;
+
+  border-radius:
+    50%;
+
+  filter:
+    blur(120px);
+
+  pointer-events:
+    none;
+
+  z-index:
+    0;
+
+  opacity:
+    0.15;
 }
 
 .orb-one {
-  background: white;
-  top: -180px;
-  left: -160px;
+  background:
+    white;
+
+  top:
+    -180px;
+
+  left:
+    -160px;
 }
 
 .orb-two {
-  background: #888;
-  right: -170px;
-  bottom: -180px;
+  background:
+    #888;
+
+  right:
+    -170px;
+
+  bottom:
+    -180px;
 }
+
 
 /* =========================================================
    TOP BAR
 ========================================================= */
 
 .os-topbar {
-  width: min(1350px, 100%);
-  position: relative;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  width:
+    min(1350px, 100%);
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  position:
+    relative;
+
+  z-index:
+    10;
 }
 
 .dextro-mark {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    9px;
+
+  font-size:
+    13px;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    0.22em;
 }
 
 .dextro-indicator {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.8);
+  width:
+    7px;
+
+  height:
+    7px;
+
+  flex:
+    0 0 7px;
+
+  border-radius:
+    50%;
+
+  background:
+    white;
+
+  box-shadow:
+    0 0 18px
+    rgba(255, 255, 255, 0.8);
 }
 
 .system-readout {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  color: rgba(255, 255, 255, 0.38);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 8px;
-  letter-spacing: 0.16em;
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    9px;
+
+  color:
+    rgba(255, 255, 255, 0.38);
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    8px;
+
+  letter-spacing:
+    0.16em;
 }
 
 .live-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 0 10px white;
+  width:
+    5px;
+
+  height:
+    5px;
+
+  border-radius:
+    50%;
+
+  background:
+    white;
+
+  box-shadow:
+    0 0 10px
+    white;
 }
 
 .readout-divider {
-  width: 1px;
-  height: 10px;
-  background: rgba(255, 255, 255, 0.18);
+  width:
+    1px;
+
+  height:
+    10px;
+
+  background:
+    rgba(255, 255, 255, 0.18);
 }
+
 
 /* =========================================================
    MAIN STAGE
 ========================================================= */
 
 .os-stage {
-  width: min(1350px, 100%);
-  flex: 1;
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 45px 0 105px;
+  width:
+    min(1350px, 100%);
+
+  flex:
+    1;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  position:
+    relative;
+
+  z-index:
+    3;
+
+  padding:
+    45px 0 105px;
 }
+
 
 /* =========================================================
    LIQUID GLASS WINDOW
 ========================================================= */
 
 .os-window {
-  width: 100%;
-  min-height: 650px;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 42px;
-  
-  /* GPU Acceleration to prevent scrolling lag */
-  transform: translateZ(0);
-  will-change: transform, backdrop-filter;
+  width:
+    100%;
 
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.095),
-    rgba(255, 255, 255, 0.025) 45%,
-    rgba(255, 255, 255, 0.045)
-  );
+  min-height:
+    650px;
 
-  backdrop-filter: blur(45px) saturate(125%);
-  -webkit-backdrop-filter: blur(45px) saturate(125%);
+  position:
+    relative;
 
-  /* Layered shadow for depth: sharp inner glow + sharp drop shadow + soft ambient shadow */
+  overflow:
+    hidden;
+
+  border-radius:
+    42px;
+
+  border:
+    1px solid
+    var(--border);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.095),
+      rgba(255, 255, 255, 0.025) 45%,
+      rgba(255, 255, 255, 0.045)
+    );
+
+  backdrop-filter:
+    blur(45px)
+    saturate(125%);
+
+  -webkit-backdrop-filter:
+    blur(45px)
+    saturate(125%);
+
   box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.11),
-    inset 0 -1px rgba(0, 0, 0, 0.35),
-    0 16px 40px rgba(0, 0, 0, 0.4),
-    0 45px 120px rgba(0, 0, 0, 0.55);
+    inset 0 1px
+      rgba(255, 255, 255, 0.11),
+
+    inset 0 -1px
+      rgba(0, 0, 0, 0.35),
+
+    0 45px 120px
+      rgba(0, 0, 0, 0.55);
 }
+
 
 /* =========================================================
    GLASS REFLECTION
 ========================================================= */
 
 .glass-highlight {
-  position: absolute;
-  width: 650px;
-  height: 280px;
-  top: -190px;
-  left: -100px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.13), transparent 70%);
-  filter: blur(35px);
-  transform: rotate(-20deg);
-  pointer-events: none;
+  position:
+    absolute;
+
+  width:
+    650px;
+
+  height:
+    280px;
+
+  top:
+    -190px;
+
+  left:
+    -100px;
+
+  border-radius:
+    50%;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(255, 255, 255, 0.13),
+      transparent 70%
+    );
+
+  filter:
+    blur(35px);
+
+  transform:
+    rotate(-20deg);
+
+  pointer-events:
+    none;
 }
 
+
 /* =========================================================
-   NOTHING DOT FIELD
+   NOTHING-STYLE DOT FIELD
 ========================================================= */
 
 .window-grid {
-  position: absolute;
-  inset: 0;
-  opacity: 0.12;
-  
-  /* Harder pixel-edge for Nothing aesthetic */
-  background-image: radial-gradient(rgba(255, 255, 255, 0.8) 0.65px, transparent 0.65px);
-  background-size: 14px 14px;
-  
-  mask-image: linear-gradient(to bottom, black, transparent 72%);
-  -webkit-mask-image: linear-gradient(to bottom, black, transparent 72%);
-  pointer-events: none;
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  background-image:
+    radial-gradient(
+      rgba(255, 255, 255, 0.6)
+      0.65px,
+      transparent 0.65px
+    );
+
+  background-size:
+    13px 13px;
+
+  opacity:
+    0.08;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      black,
+      transparent 72%
+    );
+
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      black,
+      transparent 72%
+    );
+
+  pointer-events:
+    none;
 }
+
 
 /* =========================================================
    WINDOW CONTENT
 ========================================================= */
 
 .window-content {
-  position: relative;
-  z-index: 2;
-  padding: 55px;
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  padding:
+    55px;
 }
 
 .section-meta {
-  display: flex;
-  gap: 12px;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 8px;
-  letter-spacing: 0.17em;
-  color: rgba(255, 255, 255, 0.35);
+  display:
+    flex;
+
+  gap:
+    13px;
+
+  margin-bottom:
+    15px;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    8px;
+
+  letter-spacing:
+    0.17em;
+
+  color:
+    rgba(255, 255, 255, 0.35);
 }
+
+.section-meta span:first-child {
+  color:
+    rgba(255, 255, 255, 0.7);
+}
+
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.eyebrow {
+  margin:
+    0 0 20px;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    8px;
+
+  letter-spacing:
+    0.18em;
+
+  color:
+    rgba(255, 255, 255, 0.4);
+}
+
 
 /* =========================================================
    ABOUT
 ========================================================= */
 
 .about-layout {
-  min-height: 490px;
-  display: grid;
-  grid-template-columns: 1fr minmax(260px, 390px);
-  align-items: center;
-  gap: 80px;
+  min-height:
+    490px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(260px, 390px);
+
+  align-items:
+    center;
+
+  gap:
+    80px;
 }
 
-.eyebrow {
-  margin: 0 0 20px;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 8px;
-  letter-spacing: 0.18em;
-  color: rgba(255, 255, 255, 0.4);
+.about-copy {
+  min-width:
+    0;
 }
 
 .about-copy h1 {
-  margin: 0;
-  font-size: clamp(90px, 13vw, 190px);
-  line-height: 0.85;
-  font-weight: 500;
-  letter-spacing: -0.04em;
+  margin:
+    0;
+
+  font-size:
+    clamp(
+      90px,
+      13vw,
+      190px
+    );
+
+  line-height:
+    0.78;
+
+  font-weight:
+    500;
+
+  letter-spacing:
+    -0.085em;
 }
 
 .about-description {
-  max-width: 430px;
-  margin: 35px 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.8;
-  letter-spacing: 0.02em;
+  max-width:
+    430px;
+
+  margin:
+    35px 0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    14px;
+
+  line-height:
+    1.8;
+
+  letter-spacing:
+    0.02em;
 }
 
+
 /* =========================================================
-   GLASS BUTTON
+   GLASS ACTION BUTTON
 ========================================================= */
 
 .glass-action {
-  display: inline-flex;
-  align-items: center;
-  gap: 30px;
-  padding: 14px 17px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.065);
-  color: white;
-  cursor: pointer;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 8px;
-  letter-spacing: 0.15em;
-  
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.1);
-  
-  /* Hardware acceleration for smooth hovers */
-  transform: translateZ(0);
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    31px;
+
+  min-height:
+    47px;
+
+  padding:
+    8px 14px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.16);
+
+  border-radius:
+    100px;
+
+  background:
+    rgba(255, 255, 255, 0.065);
+
+  color:
+    white;
+
+  cursor:
+    pointer;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    8.5px;
+
+  letter-spacing:
+    0.14em;
+
+  backdrop-filter:
+    blur(20px);
+
+  -webkit-backdrop-filter:
+    blur(20px);
+
+  box-shadow:
+    inset 0 1px
+    rgba(255, 255, 255, 0.1);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
 }
 
-.glass-action:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.26);
-  transform: translateY(-1px);
-  box-shadow: 
-    inset 0 1px rgba(255, 255, 255, 0.15),
-    0 4px 15px rgba(0, 0, 0, 0.3);
+.glass-action:hover:not(:disabled) {
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  border-color:
+    rgba(255, 255, 255, 0.26);
+
+  box-shadow:
+    0 10px 30px
+      rgba(0, 0, 0, 0.2),
+
+    inset 0 1px
+      rgba(255, 255, 255, 0.15);
+}
+
+.glass-action:disabled {
+  cursor:
+    not-allowed;
+
+  opacity:
+    0.28;
 }
 
 .glass-action.small {
-  padding: 11px 15px;
+  gap:
+    15px;
+
+  padding:
+    11px 15px;
 }
 
+
 /* =========================================================
-   PHOTO
+   PORTRAIT
 ========================================================= */
 
 .portrait-placeholder {
-  aspect-ratio: 0.78;
-  border-radius: 30px;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.3),
-    rgba(255, 255, 255, 0.03)
-  );
+  width:
+    100%;
+
+  aspect-ratio:
+    0.78;
+
+  border-radius:
+    30px;
+
+  padding:
+    1px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.03)
+    );
+
+  box-shadow:
+    0 25px 70px
+    rgba(0, 0, 0, 0.35);
+
+  overflow:
+    hidden;
 }
 
 .portrait-glass {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 25px;
-  border-radius: 29px;
-  background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.09), transparent 40%), rgba(0, 0, 0, 0.22);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 9px;
-  letter-spacing: 0.15em;
+  position:
+    relative;
+
+  height:
+    100%;
+
+  overflow:
+    hidden;
+
+  border-radius:
+    29px;
+
+  background:
+    rgba(0, 0, 0, 0.22);
+
+  backdrop-filter:
+    blur(25px);
+
+  -webkit-backdrop-filter:
+    blur(25px);
 }
 
-.portrait-glass small {
-  margin-top: 8px;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 7px;
+.dextro-profile-image {
+  width:
+    100%;
+
+  height:
+    100%;
+
+  object-fit:
+    cover;
+
+  /* Starts fully grayscale.
+     The React proximity value below gradually removes
+     grayscale as the cursor approaches the portrait. */
+  filter:
+    grayscale(100%)
+    contrast(1.04);
+
+  transition:
+    filter 0.18s ease-out,
+    transform 0.7s
+    cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+}
+
+.portrait-glass {
+  cursor:
+    crosshair;
+}
+
+.portrait-glass:hover
+.dextro-profile-image {
+  transform:
+    scale(1.035);
+}
+
+.portrait-overlay {
+  position:
+    absolute;
+
+  left:
+    20px;
+
+  right:
+    20px;
+
+  bottom:
+    20px;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    6px;
+
+  padding:
+    15px 17px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+
+  border-radius:
+    18px;
+
+  background:
+    rgba(0, 0, 0, 0.35);
+
+  backdrop-filter:
+    blur(22px);
+
+  -webkit-backdrop-filter:
+    blur(22px);
+}
+
+.portrait-overlay span {
+  font-size:
+    15px;
+
+  font-weight:
+    600;
+}
+
+.portrait-overlay small {
+  color:
+    rgba(255, 255, 255, 0.43);
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.12em;
+}
+
+
+/* =========================================================
+   CURRENT WORK / TEAM + ABOUT ACTIONS
+========================================================= */
+
+.about-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.creative-collaboration {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 76px;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  padding: 10px 20px 10px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255,255,255,.065), rgba(255,255,255,.018));
+  box-shadow: inset 0 1px rgba(255,255,255,.09), 0 18px 45px rgba(0,0,0,.22);
+  backdrop-filter: blur(26px) saturate(135%);
+  -webkit-backdrop-filter: blur(26px) saturate(135%);
+  transition: border-color .25s ease, background .25s ease, box-shadow .25s ease;
+}
+
+.creative-collaboration:hover {
+  border-color: rgba(255,255,255,.24);
+  background: linear-gradient(135deg, rgba(255,255,255,.085), rgba(255,255,255,.025));
+  box-shadow: inset 0 1px rgba(255,255,255,.12), 0 20px 50px rgba(0,0,0,.28);
+}
+
+.company-mark {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 20px;
+  background: rgba(255,255,255,.035);
+  box-shadow: inset 0 1px rgba(255,255,255,.10), 0 10px 28px rgba(0,0,0,.25);
+}
+
+.company-mark img {
+  width: 44px;
+  height: 34px;
+  object-fit: contain;
+  display: block;
+  opacity: .94;
+  filter: brightness(1.15) drop-shadow(0 3px 10px rgba(255,255,255,.10));
+}
+
+.company-copy {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.company-label,
+.team-label {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  line-height: 1.25;
+  letter-spacing: .16em;
+  color: rgba(255,255,255,.52);
+}
+
+.company-copy strong {
+  display: block;
+  white-space: nowrap;
+  font-size: 18px;
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: .005em;
+  color: rgba(255,255,255,.92);
+}
+
+.team-label {
+  display: block;
+  margin-top: 1px;
+  min-width: max-content;
+  white-space: nowrap;
+  color: rgba(255,255,255,.56);
+}
+
+.about-actions .glass-action {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 76px;
+  margin: 0;
+  padding: 10px 24px;
+  gap: 30px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: .15em;
+  background: linear-gradient(135deg, rgba(255,255,255,.065), rgba(255,255,255,.018));
+  border-color: rgba(255,255,255,.16);
+  box-shadow: inset 0 1px rgba(255,255,255,.09), 0 18px 45px rgba(0,0,0,.22);
+}
+
+.about-actions .glass-action:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.025));
+  border-color: rgba(255,255,255,.25);
+  box-shadow: inset 0 1px rgba(255,255,255,.13), 0 20px 50px rgba(0,0,0,.28);
+}
+
+.about-actions .glass-action span:last-child {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: 0;
+  opacity: .9;
 }
 
 /* =========================================================
    ABOUT FOOTER
 ========================================================= */
 
+/* =========================================================
+   ABOUT FOOTER
+========================================================= */
+
 .about-footer {
-  display: flex;
-  gap: 25px;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 7px;
-  letter-spacing: 0.18em;
-  color: rgba(255, 255, 255, 0.25);
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    25px;
+
+  margin-top:
+    15px;
+
+  padding-top:
+    20px;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.18em;
+
+  color:
+    rgba(255, 255, 255, 0.25);
 }
 
+
 /* =========================================================
-   WORK
+   WORK HEADER
 ========================================================= */
 
 .work-header {
-  margin-top: 50px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  margin-top:
+    45px;
+
+  display:
+    flex;
+
+  align-items:
+    flex-end;
+
+  justify-content:
+    space-between;
+
+  gap:
+    20px;
 }
 
 .work-header h2,
 .review-layout h2 {
-  margin: 0;
-  font-size: clamp(60px, 9vw, 125px);
-  line-height: 0.85;
-  font-weight: 500;
-  letter-spacing: -0.04em;
+  margin:
+    0;
+
+  font-size:
+    clamp(
+      60px,
+      9vw,
+      125px
+    );
+
+  line-height:
+    0.8;
+
+  font-weight:
+    500;
+
+  letter-spacing:
+    -0.07em;
 }
 
 .work-count {
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 8px;
-  color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.12em;
+  padding-bottom:
+    5px;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    8px;
+
+  color:
+    rgba(255, 255, 255, 0.3);
+
+  letter-spacing:
+    0.12em;
 }
+
 
 /* =========================================================
    PROJECT GRID
 ========================================================= */
 
 .project-grid {
-  margin-top: 50px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  margin-top:
+    50px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    24px;
 }
 
+
+/* =========================================================
+   PROJECT CARD
+========================================================= */
+
 .project-card {
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 25px;
-  background: rgba(255, 255, 255, 0.035);
-  cursor: pointer;
-  transform: translateZ(0); /* Hardware acceleration */
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  position:
+    relative;
+
+  overflow:
+    visible;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+
+  border-radius:
+    28px;
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  box-shadow:
+    0 20px 55px
+    rgba(0, 0, 0, 0.28);
+
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease;
 }
 
 .project-card:hover {
-  border-color: rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.055);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-color:
+    rgba(255, 255, 255, 0.22);
+
+  background:
+    rgba(255, 255, 255, 0.05);
 }
 
-.project-image {
-  aspect-ratio: 16 / 10;
-  position: relative;
-  overflow: hidden;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08), transparent 60%), #0b0b0b;
+
+/* =========================================================
+   CINEMATIC VIDEO AMBIENT GLOW
+========================================================= */
+
+.youtube-project-image {
+  --glow-one: #7b5cff;
+  --glow-two: #ff6b35;
+  --glow-three: #3f8cff;
 }
 
-.project-placeholder {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 8px;
-  letter-spacing: 0.16em;
-  color: rgba(255, 255, 255, 0.35);
-}
-
-.project-placeholder small {
-  font-size: 6px;
-  color: rgba(255, 255, 255, 0.2);
-}
-
-.project-play {
+.video-ambient-glow {
   position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  font-size: 8px;
-  transition: transform 0.3s ease;
+
+  z-index: -1;
+
+  inset: -55px;
+
+  overflow: visible;
+
+  pointer-events: none;
+
+  opacity: 0.62;
+
+  filter: blur(45px);
+
+  transform: translateZ(0);
+
+  transition:
+    opacity 0.5s ease,
+    filter 0.5s ease;
 }
 
-.project-card:hover .project-play {
-  transform: scale(1.1);
-  background: rgba(0, 0, 0, 0.5);
+.project-card:hover
+.video-ambient-glow {
+  opacity: 0.82;
+
+  filter:
+    blur(52px);
 }
+
+.ambient-orb {
+  position: absolute;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  mix-blend-mode: screen;
+}
+
+.ambient-orb-one {
+  width: 70%;
+  height: 80%;
+
+  left: -12%;
+  top: -20%;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--glow-one),
+      transparent 68%
+    );
+
+  animation:
+    ambientFloatOne
+    9s
+    ease-in-out
+    infinite;
+}
+
+.ambient-orb-two {
+  width: 75%;
+  height: 85%;
+
+  right: -18%;
+  bottom: -22%;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--glow-two),
+      transparent 68%
+    );
+
+  animation:
+    ambientFloatTwo
+    12s
+    ease-in-out
+    infinite;
+}
+
+.ambient-orb-three {
+  width: 55%;
+  height: 65%;
+
+  left: 25%;
+  top: 15%;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--glow-three),
+      transparent 70%
+    );
+
+  animation:
+    ambientFloatThree
+    15s
+    ease-in-out
+    infinite;
+}
+
+@keyframes ambientFloatOne {
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translate3d(15%, 8%, 0)
+      scale(1.16);
+  }
+}
+
+@keyframes ambientFloatTwo {
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translate3d(-13%, -12%, 0)
+      scale(1.14);
+  }
+}
+
+@keyframes ambientFloatThree {
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(0.95);
+  }
+
+  50% {
+    transform:
+      translate3d(-8%, 12%, 0)
+      scale(1.12);
+  }
+}
+
+
+/* =========================================================
+   VIDEO CONTAINER
+========================================================= */
+
+
+
+.youtube-project-image {
+  position:
+    relative;
+
+  overflow:
+    visible;
+
+  isolation:
+    isolate;
+
+  aspect-ratio:
+    16 / 9;
+
+  background:
+    #000;
+}
+
+
+/* =========================================================
+   YOUTUBE PLAYER
+========================================================= */
+
+.youtube-player {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    1;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  overflow:
+    hidden;
+
+  background:
+    #000;
+}
+
+.youtube-player iframe {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  width:
+    100% !important;
+
+  height:
+    100% !important;
+
+  border:
+    0;
+
+  display:
+    block;
+
+  pointer-events:
+    none;
+}
+
+
+/* =========================================================
+   GLASS VIDEO LAYER
+========================================================= */
+
+.youtube-glass-overlay {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    3;
+
+  pointer-events:
+    none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.025)
+      0%,
+
+      transparent
+      32%,
+
+      transparent
+      65%,
+
+      rgba(0, 0, 0, 0.3)
+      100%
+    );
+
+  box-shadow:
+    inset 0 1px
+      rgba(255, 255, 255, 0.08),
+
+    inset 0 -1px
+      rgba(0, 0, 0, 0.3);
+}
+
+
+/* =========================================================
+   AUTOPLAY COVER
+========================================================= */
+
+.youtube-autoplay-cover {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    7;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  background:
+    rgba(0, 0, 0, 0.18);
+
+  backdrop-filter:
+    blur(1px);
+
+  -webkit-backdrop-filter:
+    blur(1px);
+}
+
+
+/* =========================================================
+   CUSTOM PLAY BUTTON
+========================================================= */
+
+.custom-video-play {
+  width:
+    58px;
+
+  height:
+    58px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.22);
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  backdrop-filter:
+    blur(22px);
+
+  -webkit-backdrop-filter:
+    blur(22px);
+
+  color:
+    white;
+
+  cursor:
+    pointer;
+
+  box-shadow:
+    0 14px 40px
+      rgba(0, 0, 0, 0.45),
+
+    inset 0 1px
+      rgba(255, 255, 255, 0.14);
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.custom-video-play:hover {
+  transform:
+    scale(1.08);
+
+  background:
+    rgba(255, 255, 255, 0.13);
+
+  border-color:
+    rgba(255, 255, 255, 0.35);
+}
+
+.custom-video-play:active {
+  transform:
+    scale(0.95);
+}
+
+.custom-video-play span {
+  margin-left:
+    3px;
+
+  font-size:
+    16px;
+}
+
+
+/* =========================================================
+   VIDEO METADATA
+========================================================= */
+
+.youtube-project-number {
+  position:
+    absolute;
+
+  top:
+    14px;
+
+  left:
+    14px;
+
+  z-index:
+    10;
+
+  padding:
+    7px 10px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(10, 10, 10, 0.38);
+
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
+
+  color:
+    rgba(255, 255, 255, 0.62);
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    8px;
+
+  letter-spacing:
+    0.14em;
+}
+
+.youtube-muted-indicator {
+  position:
+    absolute;
+
+  top:
+    14px;
+
+  right:
+    14px;
+
+  z-index:
+    10;
+
+  padding:
+    7px 10px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(10, 10, 10, 0.35);
+
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
+
+  color:
+    rgba(255, 255, 255, 0.48);
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.12em;
+}
+
+
+/* =========================================================
+   YOUTUBE OPEN BUTTON
+========================================================= */
+
+.youtube-open-button {
+  position:
+    absolute;
+
+  right:
+    14px;
+
+  bottom:
+    14px;
+
+  z-index:
+    20;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  padding:
+    8px 11px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(10, 10, 10, 0.48);
+
+  backdrop-filter:
+    blur(20px)
+    saturate(140%);
+
+  -webkit-backdrop-filter:
+    blur(20px)
+    saturate(140%);
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  text-decoration:
+    none;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.1em;
+
+  white-space:
+    nowrap;
+
+  box-shadow:
+    inset 0 1px
+      rgba(255, 255, 255, 0.08),
+
+    0 8px 30px
+      rgba(0, 0, 0, 0.3);
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.youtube-open-button:hover {
+  transform:
+    translateY(-2px);
+
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  border-color:
+    rgba(255, 255, 255, 0.28);
+
+  color:
+    white;
+}
+
+
+/* =========================================================
+   YOUTUBE ICON
+========================================================= */
+
+.youtube-icon {
+  width:
+    17px;
+
+  height:
+    17px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    5px;
+
+  background:
+    rgba(255, 255, 255, 0.92);
+
+  color:
+    #000;
+
+  font-size:
+    6px;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.youtube-loading {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    30;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  background:
+    #050505;
+
+  color:
+    rgba(255, 255, 255, 0.35);
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.2em;
+
+  pointer-events:
+    none;
+}
+
+
+/* =========================================================
+   VIDEO ERROR
+========================================================= */
+
+.youtube-error-cover {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    15;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  background:
+    rgba(5, 5, 5, 0.72);
+
+  backdrop-filter:
+    blur(8px);
+
+  -webkit-backdrop-filter:
+    blur(8px);
+}
+
+.youtube-error-content {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  gap:
+    12px;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.15em;
+
+  color:
+    rgba(255, 255, 255, 0.42);
+}
+
+.youtube-error-play {
+  padding:
+    8px 12px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.16);
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(255, 255, 255, 0.06);
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  cursor:
+    pointer;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.12em;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.youtube-error-play:hover {
+  background:
+    rgba(255, 255, 255, 0.11);
+
+  border-color:
+    rgba(255, 255, 255, 0.28);
+}
+
+
+/* =========================================================
+   PROJECT INFO
+========================================================= */
 
 .project-info {
-  padding: 17px;
-  display: flex;
-  justify-content: space-between;
+  padding:
+    17px;
+
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap:
+    20px;
 }
 
 .project-number {
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 7px;
-  color: rgba(255, 255, 255, 0.3);
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  color:
+    rgba(255, 255, 255, 0.3);
 }
 
 .project-info h3 {
-  margin: 6px 0;
-  font-size: 15px;
-  font-weight: 500;
+  margin:
+    6px 0;
+
+  font-size:
+    15px;
+
+  font-weight:
+    500;
+
+  letter-spacing:
+    -0.02em;
 }
 
 .project-info p {
-  margin: 0;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 7px;
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.32);
+  margin:
+    0;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.12em;
+
+  color:
+    rgba(255, 255, 255, 0.32);
 }
 
 .project-arrow {
-  color: rgba(255, 255, 255, 0.4);
+  color:
+    rgba(255, 255, 255, 0.4);
+
+  font-size:
+    15px;
+
+  line-height:
+    1;
 }
 
+
 /* =========================================================
-   REVIEW
+   SOFTWARE I USE
 ========================================================= */
 
+.software-section {
+  margin-top:
+    72px;
+
+  padding-top:
+    36px;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+.software-heading {
+  display:
+    flex;
+
+  align-items:
+    flex-end;
+
+  justify-content:
+    space-between;
+
+  gap:
+    20px;
+}
+
+.software-heading h3 {
+  margin:
+    0;
+
+  font-size:
+    clamp(
+      28px,
+      4vw,
+      52px
+    );
+
+  line-height:
+    0.95;
+
+  font-weight:
+    450;
+
+  letter-spacing:
+    -0.045em;
+
+  color:
+    rgba(255, 255, 255, 0.88);
+}
+
+.software-count {
+  padding-bottom:
+    4px;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.15em;
+
+  color:
+    rgba(255, 255, 255, 0.28);
+}
+
+.software-strip {
+  margin-top:
+    28px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    12px;
+}
+
+.software-card {
+  position:
+    relative;
+
+  min-width:
+    0;
+
+  overflow:
+    hidden;
+
+  padding:
+    15px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+
+  border-radius:
+    22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.075),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  box-shadow:
+    inset 0 1px
+      rgba(255, 255, 255, 0.08),
+
+    0 15px 45px
+      rgba(0, 0, 0, 0.24);
+
+  backdrop-filter:
+    blur(25px)
+    saturate(125%);
+
+  -webkit-backdrop-filter:
+    blur(25px)
+    saturate(125%);
+
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.software-card:hover {
+  border-color:
+    rgba(255, 255, 255, 0.22);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.105),
+      rgba(255, 255, 255, 0.035)
+    );
+
+  box-shadow:
+    inset 0 1px
+      rgba(255, 255, 255, 0.12),
+
+    0 20px 55px
+      rgba(0, 0, 0, 0.32);
+}
+
+.software-icon-wrap {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  aspect-ratio:
+    1;
+
+  overflow:
+    hidden;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    17px;
+
+  background:
+    #020202;
+
+  box-shadow:
+    inset 0 0 0 1px
+      rgba(255, 255, 255, 0.05);
+}
+
+.software-icon-image {
+  width:
+    100%;
+
+  height:
+    100%;
+
+  object-fit:
+    cover;
+
+  mix-blend-mode:
+    screen;
+
+  filter:
+    grayscale(100%)
+    contrast(1.08)
+    brightness(0.9);
+
+  opacity:
+    0.78;
+
+  transform:
+    scale(1.04);
+
+  transition:
+    filter 0.4s ease,
+    opacity 0.4s ease,
+    transform 0.5s
+      cubic-bezier(
+        0.22,
+        1,
+        0.36,
+        1
+      );
+}
+
+.software-card:hover
+.software-icon-image {
+  filter:
+    grayscale(0%)
+    contrast(1.03)
+    brightness(1);
+
+  opacity:
+    1;
+
+  transform:
+    scale(1.075);
+}
+
+.software-icon-shine {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  pointer-events:
+    none;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.13),
+      transparent 35%,
+      transparent 70%,
+      rgba(255, 255, 255, 0.035)
+    );
+
+  mix-blend-mode:
+    screen;
+}
+
+.software-label {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    5px;
+
+  margin-top:
+    13px;
+}
+
+.software-short {
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.14em;
+
+  color:
+    rgba(255, 255, 255, 0.3);
+}
+
+.software-name {
+  overflow:
+    hidden;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+
+  font-size:
+    11px;
+
+  font-weight:
+    500;
+
+  color:
+    rgba(255, 255, 255, 0.72);
+}
+
+.software-note {
+  margin:
+    18px 0 0;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.16em;
+
+  color:
+    rgba(255, 255, 255, 0.22);
+}
+
+
+/* =========================================================
+   REVIEWS
+========================================================= */
+
+
+
 .review-layout {
-  min-height: 500px;
-  display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  align-items: center;
-  gap: 80px;
-  margin-top: 50px;
+  min-height:
+    500px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    0.8fr
+    1.2fr;
+
+  align-items:
+    center;
+
+  gap:
+    80px;
+
+  margin-top:
+    50px;
 }
 
 .review-description {
-  max-width: 350px;
-  margin-top: 30px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.8;
+  max-width:
+    350px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    13px;
+
+  line-height:
+    1.8;
+
+  margin-top:
+    30px;
 }
 
 .review-box {
-  padding: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
-  transform: translateZ(0); /* GPU target */
+  padding:
+    30px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+
+  border-radius:
+    30px;
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  backdrop-filter:
+    blur(25px);
+
+  -webkit-backdrop-filter:
+    blur(25px);
+
+  box-shadow:
+    inset 0 1px
+    rgba(255, 255, 255, 0.08);
 }
+
+
+/* =========================================================
+   STAR RATING
+========================================================= */
 
 .stars {
-  margin-bottom: 25px;
-  font-size: 25px;
-  letter-spacing: 6px;
-  color: rgba(255, 255, 255, 0.85);
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    6px;
+
+  margin-bottom:
+    25px;
 }
 
+.star-button {
+  width:
+    34px;
+
+  height:
+    34px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    0;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    rgba(255, 255, 255, 0.22);
+
+  cursor:
+    pointer;
+
+  font-size:
+    25px;
+
+  line-height:
+    1;
+
+  transition:
+    color 0.2s ease,
+    text-shadow 0.2s ease;
+}
+
+.star-button:hover,
+.star-button.active {
+  color:
+    rgba(255, 255, 255, 0.9);
+
+  text-shadow:
+    0 0 20px
+    rgba(255, 255, 255, 0.25);
+}
+
+
+/* =========================================================
+   REVIEW TEXTAREA
+========================================================= */
+
 .review-box textarea {
-  width: 100%;
-  min-height: 150px;
-  resize: none;
-  outline: none;
-  border: 1px solid transparent;
-  border-radius: 18px;
-  padding: 17px;
-  background: rgba(0, 0, 0, 0.25);
-  color: white;
-  font-size: 13px;
-  line-height: 1.6;
-  transition: border-color 0.3s ease;
+  width:
+    100%;
+
+  min-height:
+    150px;
+
+  resize:
+    none;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.06);
+
+  outline:
+    none;
+
+  border-radius:
+    18px;
+
+  padding:
+    17px;
+
+  background:
+    rgba(0, 0, 0, 0.25);
+
+  color:
+    white;
+
+  font-size:
+    13px;
+
+  line-height:
+    1.6;
+
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
 }
 
 .review-box textarea:focus {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color:
+    rgba(255, 255, 255, 0.2);
+
+  background:
+    rgba(0, 0, 0, 0.32);
 }
 
 .review-box textarea::placeholder {
-  color: rgba(255, 255, 255, 0.25);
+  color:
+    rgba(255, 255, 255, 0.25);
 }
 
+
+/* =========================================================
+   REVIEW FOOTER
+========================================================= */
+
 .review-bottom {
-  margin-top: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 7px;
-  color: rgba(255, 255, 255, 0.3);
+  margin-top:
+    18px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    15px;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  color:
+    rgba(255, 255, 255, 0.3);
 }
+
+.word-limit {
+  color:
+    rgba(255, 255, 255, 0.65);
+}
+
 
 /* =========================================================
    WINDOW CORNER
 ========================================================= */
 
 .window-corner {
-  position: absolute;
-  right: 28px;
-  bottom: 25px;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 7px;
-  color: rgba(255, 255, 255, 0.22);
-  letter-spacing: 0.15em;
+  position:
+    absolute;
+
+  right:
+    28px;
+
+  bottom:
+    25px;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  color:
+    rgba(255, 255, 255, 0.22);
+
+  letter-spacing:
+    0.15em;
 }
+
 
 /* =========================================================
    LIQUID GLASS NAVIGATION
 ========================================================= */
 
 .liquid-nav {
-  position: fixed;
-  left: 50%;
-  bottom: 28px;
-  transform: translateX(-50%) translateZ(0);
-  z-index: 30;
-  display: flex;
-  padding: 6px;
-  
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 999px;
-  background: rgba(18, 18, 18, 0.42);
-  
-  /* GPU Acceleration to prevent scrolling lag */
-  will-change: transform, backdrop-filter;
+  position:
+    fixed;
 
-  backdrop-filter: blur(40px) saturate(160%);
-  -webkit-backdrop-filter: blur(40px) saturate(160%);
+  left:
+    50%;
 
-  /* Enhanced double-shadow for a floating OS pill look */
+  bottom:
+    28px;
+
+  transform:
+    translateX(-50%);
+
+  z-index:
+    30;
+
+  display:
+    flex;
+
+  padding:
+    6px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.15);
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(20, 20, 20, 0.42);
+
+  backdrop-filter:
+    blur(40px)
+    saturate(160%);
+
+  -webkit-backdrop-filter:
+    blur(40px)
+    saturate(160%);
+
   box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.12),
-    inset 0 -1px rgba(0, 0, 0, 0.3),
-    0 12px 30px rgba(0, 0, 0, 0.4),
-    0 25px 80px rgba(0, 0, 0, 0.6);
+    inset 0 1px
+      rgba(255, 255, 255, 0.12),
+
+    inset 0 -1px
+      rgba(0, 0, 0, 0.3),
+
+    0 25px 80px
+      rgba(0, 0, 0, 0.6);
 }
 
-/* =========================================================
-   NAV BUTTON
-========================================================= */
-
 .nav-button {
-  position: relative;
-  z-index: 2;
-  width: 125px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.38);
-  cursor: pointer;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 8px;
-  letter-spacing: 0.13em;
-  transition: color 0.25s ease;
+  position:
+    relative;
+
+  width:
+    125px;
+
+  height:
+    44px;
+
+  border:
+    0;
+
+  border-radius:
+    999px;
+
+  background:
+    transparent;
+
+  color:
+    rgba(255, 255, 255, 0.38);
+
+  cursor:
+    pointer;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    8px;
+
+  letter-spacing:
+    0.13em;
+
+  transition:
+    color 0.25s ease;
 }
 
 .nav-button:hover {
-  color: rgba(255, 255, 255, 0.9);
+  color:
+    rgba(255, 255, 255, 0.9);
 }
 
 .nav-button.selected {
-  color: white;
+  color:
+    white;
 }
-
-/* =========================================================
-   MOVING LIQUID GLASS ACTIVE PILL
-========================================================= */
 
 .nav-liquid-highlight {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  
-  /* Motion API GPU optimization */
-  will-change: transform; 
+  position:
+    absolute;
 
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.18),
-    rgba(255, 255, 255, 0.055)
-  );
+  inset:
+    0;
 
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  
+  z-index:
+    -1;
+
+  border-radius:
+    inherit;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0.055)
+    );
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.18);
+
   box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.14),
-    inset 0 -1px rgba(0, 0, 0, 0.15),
-    0 5px 25px rgba(0, 0, 0, 0.25);
+    inset 0 1px
+      rgba(255, 255, 255, 0.14),
 
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  pointer-events: none;
-}
+    inset 0 -1px
+      rgba(0, 0, 0, 0.15),
 
-/* =========================================================
-   NAV TEXT
-========================================================= */
+    0 5px 25px
+      rgba(0, 0, 0, 0.25);
 
-.nav-number,
-.nav-label {
-  position: relative;
-  z-index: 2;
+  backdrop-filter:
+    blur(20px);
+
+  -webkit-backdrop-filter:
+    blur(20px);
+
+  pointer-events:
+    none;
 }
 
 .nav-number {
-  font-size: 7px;
-  opacity: 0.35;
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  font-size:
+    7px;
+
+  opacity:
+    0.35;
 }
+
+.nav-label {
+  position:
+    relative;
+
+  z-index:
+    2;
+}
+
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
 .os-footer {
-  width: min(1350px, 100%);
-  position: relative;
-  z-index: 5;
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 7px;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.22);
+  width:
+    min(1350px, 100%);
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  position:
+    relative;
+
+  z-index:
+    5;
+
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    0.15em;
+
+  color:
+    rgba(255, 255, 255, 0.22);
 }
+
 
 /* =========================================================
-   TABLET / MOBILE
+   MOBILE
 ========================================================= */
 
-@media (max-width: 800px) {
-  .dextro-os { padding: 17px; }
-  .system-readout { display: none; }
-  .os-stage { padding: 30px 0 95px; }
-  .os-window {
-    min-height: 650px;
-    border-radius: 30px;
+@media (max-width: 1050px) {
+
+  .software-strip {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
   }
-  .window-content { padding: 30px; }
-  .about-layout {
-    grid-template-columns: 1fr;
-    gap: 35px;
-    min-height: auto;
-    padding-top: 55px;
-  }
-  .about-copy h1 { font-size: 75px; }
-  
-  .portrait-placeholder {
-    width: min(100%, 280px);
-    margin: 0 auto;
-  }
-  
-  .about-footer {
-    margin-top: 35px;
-    flex-wrap: wrap;
-  }
-  
-  .work-header {
-    margin-top: 45px;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .project-grid {
-    grid-template-columns: 1fr;
-    margin-top: 30px;
-  }
-  
-  .review-layout {
-    grid-template-columns: 1fr;
-    gap: 35px;
-    margin-top: 45px;
-  }
-  
-  .review-box { padding: 20px; }
-  
-  /* Mobile navigation */
-  .liquid-nav {
-    left: 12px;
-    right: 12px;
-    bottom: 15px;
-    width: auto;
-    transform: none;
-    justify-content: stretch;
-  }
-  
-  .nav-button {
-    width: 33.3333%;
-    min-width: 0;
-    flex: 1;
-    height: 42px;
-    padding: 8px 5px;
-    font-size: 7px;
-  }
-  
-  .nav-number { display: none; }
-  .os-footer { display: none; }
+
 }
+
+@media (max-width: 800px) {
+
+  .about-actions {
+    gap: 10px;
+  }
+
+  .creative-collaboration,
+  .about-actions .glass-action {
+    min-height: 64px;
+  }
+
+  .creative-collaboration {
+    padding: 8px 14px 8px 8px;
+    gap: 10px;
+  }
+
+  .company-mark {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+    border-radius: 17px;
+  }
+
+  .company-mark img {
+    width: 37px;
+    height: 29px;
+  }
+
+  .company-copy strong {
+    font-size: 14px;
+  }
+
+  .company-label,
+  .team-label {
+    font-size: 6.5px;
+  }
+
+  .about-actions .glass-action {
+    padding: 8px 15px;
+    gap: 16px;
+    font-size: 8px;
+  }
+
+  .about-actions .glass-action span:last-child {
+    font-size: 18px;
+  }
+
+
+  .creative-collaboration {
+    max-width:
+      100%;
+  }
+
+  .company-copy {
+    min-width:
+      0;
+  }
+
+  .company-copy strong,
+  .team-label {
+    white-space:
+      nowrap;
+  }
+
+
+
+  .portrait-placeholder {
+    width:
+      min(72vw, 300px);
+
+    justify-self:
+      center;
+  }
+
+  .creative-collaboration {
+    max-width:
+      100%;
+  }
+
+
+  .dextro-os {
+    padding:
+      17px;
+  }
+
+  .system-readout {
+    display:
+      none;
+  }
+
+  .os-stage {
+    padding:
+      30px 0 95px;
+  }
+
+  .os-window {
+    min-height:
+      650px;
+
+    border-radius:
+      30px;
+  }
+
+  .window-content {
+    padding:
+      30px;
+  }
+
+  .about-layout {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      45px;
+
+    min-height:
+      auto;
+
+    padding-top:
+      35px;
+  }
+
+  .about-copy h1 {
+    font-size:
+      75px;
+  }
+
+  .about-description {
+    max-width:
+      560px;
+  }
+
+  .portrait-placeholder {
+    width:
+      min(100%, 300px);
+
+    margin:
+      0 auto;
+  }
+
+  .about-footer {
+    margin-top:
+      35px;
+  }
+
+  .work-header {
+    margin-top:
+      45px;
+
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+
+    gap:
+      15px;
+  }
+
+  .project-grid {
+    grid-template-columns:
+      1fr;
+
+    margin-top:
+      30px;
+  }
+
+  .software-section {
+    margin-top:
+      55px;
+
+    padding-top:
+      30px;
+  }
+
+  .software-strip {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+
+  .software-card {
+    padding:
+      11px;
+
+    border-radius:
+      18px;
+  }
+
+  .review-layout {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      35px;
+
+    margin-top:
+      45px;
+  }
+
+  .review-box {
+    padding:
+      20px;
+  }
+
+  .liquid-nav {
+    width:
+      calc(100% - 34px);
+
+    bottom:
+      15px;
+
+    justify-content:
+      stretch;
+  }
+
+  .nav-button {
+    width:
+      33.333%;
+
+    min-width:
+      0;
+
+    height:
+      42px;
+
+    padding:
+      8px 5px;
+
+    font-size:
+      7px;
+  }
+
+  .nav-number {
+    display:
+      none;
+  }
+
+  .os-footer {
+    display:
+      none;
+  }
+}
+
 
 /* =========================================================
    SMALL MOBILE
 ========================================================= */
 
-@media (max-width: 430px) {
-  .dextro-os { padding: 12px; }
-  .os-stage { padding-top: 20px; }
-  .os-window { border-radius: 25px; }
-  .window-content { padding: 23px; }
-  .about-copy h1 { font-size: 62px; }
-  .about-description { font-size: 12px; }
-  .work-header h2,
-  .review-layout h2 { font-size: 65px; }
-  .liquid-nav { left: 12px; right: 12px; width: auto; }
-  .nav-button { font-size: 6px; padding: 11px 5px; }
+@media (max-width: 520px) {
+
+  .software-heading {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+
+    gap:
+      10px;
+  }
+
+  .software-strip {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+  .software-name {
+    font-size:
+      10px;
+  }
+
 }
+
+@media (max-width: 430px) {
+
+  .dextro-os {
+    padding:
+      12px;
+  }
+
+  .os-stage {
+    padding-top:
+      20px;
+  }
+
+  .os-window {
+    border-radius:
+      25px;
+  }
+
+  .window-content {
+    padding:
+      23px;
+  }
+
+  .about-layout {
+    padding-top:
+      25px;
+  }
+
+  .about-copy h1 {
+    font-size:
+      62px;
+  }
+
+  .about-description {
+    font-size:
+      12px;
+
+    line-height:
+      1.7;
+  }
+
+  .about-footer {
+    gap:
+      17px;
+  }
+
+  .work-header h2,
+  .review-layout h2 {
+    font-size:
+      65px;
+  }
+
+  .project-info {
+    padding:
+      15px;
+  }
+
+  .project-info h3 {
+    font-size:
+      13px;
+  }
+
+  .project-info p {
+    font-size:
+      6px;
+  }
+
+  .youtube-project-number {
+    top:
+      10px;
+
+    left:
+      10px;
+
+    padding:
+      6px 8px;
+  }
+
+  .youtube-muted-indicator {
+    top:
+      10px;
+
+    right:
+      10px;
+
+    padding:
+      6px 8px;
+
+    font-size:
+      6px;
+  }
+
+  .youtube-open-button {
+    right:
+      10px;
+
+    bottom:
+      10px;
+
+    gap:
+      6px;
+
+    padding:
+      7px 9px;
+
+    font-size:
+      5.5px;
+  }
+
+  .youtube-icon {
+    width:
+      15px;
+
+    height:
+      15px;
+  }
+
+  .custom-video-play {
+    width:
+      48px;
+
+    height:
+      48px;
+  }
+
+  .custom-video-play span {
+    font-size:
+      13px;
+  }
+
+  .review-bottom {
+    align-items:
+      flex-end;
+  }
+
+  .glass-action.small {
+    padding:
+      9px 11px;
+  }
+
+  .liquid-nav {
+    width:
+      calc(100% - 24px);
+
+    bottom:
+      15px;
+  }
+
+  .nav-button {
+    font-size:
+      6px;
+
+    padding:
+      11px 5px;
+  }
+}
+
 
 /* =========================================================
    REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.01ms !important;
+
+    scroll-behavior:
+      auto !important;
   }
 }
+
 /* =========================================================
-   DEXTRO PROFILE IMAGE
+   AMBIENT GLOW SAFETY / VIDEO CONTENT CLIP
 ========================================================= */
 
-.dextro-profile-image {
+.youtube-project-image::before {
+  content: "";
+
   position: absolute;
 
   inset: 0;
 
-  width: 100%;
-  height: 100%;
+  z-index: 2;
 
-  object-fit: cover;
+  pointer-events: none;
 
-  border-radius: 29px;
-
-  display: block;
-
-  filter:
-    grayscale(100%)
-    contrast(1.05);
-
-  transition:
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.5s ease;
-}
-
-.portrait-placeholder:hover
-.dextro-profile-image {
-  transform: scale(1.035);
-
-  filter:
-    grayscale(0%)
-    contrast(1.05);
-}
-
-.portrait-glass {
-  position: relative;
-
-  overflow: hidden;
-}
-
-.portrait-overlay {
-  position: absolute;
-
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
-
-  z-index: 3;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 5px;
-
-  padding: 14px 16px;
-
-  border:
-    1px solid
-    rgba(255,255,255,0.14);
-
-  border-radius: 16px;
-
-  background:
-    rgba(0,0,0,0.28);
-
-  backdrop-filter:
-    blur(18px)
-    saturate(120%);
-
-  -webkit-backdrop-filter:
-    blur(18px)
-    saturate(120%);
+  border-radius: 0;
 
   box-shadow:
-    inset 0 1px
-    rgba(255,255,255,0.1);
+    inset 0 0 0 1px
+      rgba(255, 255, 255, 0.025);
 }
 
-.portrait-overlay span {
-  font-family:
-    var(--font-geist-mono),
-    monospace;
-
-  font-size: 9px;
-
-  letter-spacing: 0.16em;
-
-  color: white;
+.youtube-player {
+  border-radius: 0;
 }
 
-.portrait-overlay small {
+/* =========================================================
+   REDUCED MOTION — AMBIENT GLOW
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-orb-one,
+  .ambient-orb-two,
+  .ambient-orb-three {
+    animation: none;
+  }
+
+  .video-ambient-glow {
+    transition: none;
+  }
+}
+
+
+/* =========================================================
+   GOOGLE REVIEW AUTH + COMMENT CARDS
+========================================================= */
+
+.review-login-state {
+  display:
+    flex;
+  flex-direction:
+    column;
+  align-items:
+    flex-start;
+  gap:
+    14px;
+}
+
+.review-login-icon {
+  width:
+    42px;
+  height:
+    42px;
+  display:
+    flex;
+  align-items:
+    center;
+  justify-content:
+    center;
+  border:
+    1px solid rgba(255,255,255,0.12);
+  border-radius:
+    50%;
+  background:
+    rgba(255,255,255,0.06);
+  color:
+    rgba(255,255,255,0.88);
+  font-size:
+    16px;
+  font-weight:
+    600;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,0.08),
+    0 10px 30px rgba(0,0,0,0.25);
+}
+
+.review-login-title {
+  margin:
+    0;
   font-family:
-    var(--font-geist-mono),
-    monospace;
+    var(--font-geist-mono), monospace;
+  font-size:
+    8px;
+  letter-spacing:
+    0.14em;
+  color:
+    rgba(255,255,255,0.45);
+}
 
-  font-size: 6px;
+.review-login-copy {
+  margin:
+    7px 0 0;
+  font-size:
+    12px;
+  color:
+    rgba(255,255,255,0.65);
+}
 
-  letter-spacing: 0.14em;
+.google-review-button {
+  width:
+    100%;
+  min-height:
+    48px;
+  display:
+    flex;
+  align-items:
+    center;
+  justify-content:
+    center;
+  gap:
+    11px;
+  padding:
+    12px 16px;
+  border:
+    1px solid rgba(255,255,255,0.13);
+  border-radius:
+    999px;
+  background:
+    rgba(255,255,255,0.055);
+  color:
+    rgba(255,255,255,0.82);
+  font-family:
+    var(--font-geist-mono), monospace;
+  font-size:
+    7px;
+  letter-spacing:
+    0.12em;
+  cursor:
+    pointer;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,0.08),
+    0 12px 35px rgba(0,0,0,0.2);
+  backdrop-filter:
+    blur(20px);
+  -webkit-backdrop-filter:
+    blur(20px);
+}
 
+.google-review-button:hover {
+  border-color:
+    rgba(255,255,255,0.24);
+  background:
+    rgba(255,255,255,0.09);
+}
+
+.google-g-mark {
+  width:
+    22px;
+  height:
+    22px;
+  display:
+    flex;
+  align-items:
+    center;
+  justify-content:
+    center;
+  border-radius:
+    50%;
+  background:
+    rgba(255,255,255,0.92);
+  color:
+    #111;
+  font-family:
+    Arial, sans-serif;
+  font-size:
+    12px;
+  font-weight:
+    700;
+  letter-spacing:
+    0;
+}
+
+.review-user-bar {
+  display:
+    flex;
+  align-items:
+    center;
+  justify-content:
+    space-between;
+  gap:
+    14px;
+  margin-bottom:
+    24px;
+  padding-bottom:
+    18px;
+  border-bottom:
+    1px solid rgba(255,255,255,0.07);
+}
+
+.review-user-info,
+.review-comment-user {
+  display:
+    flex;
+  align-items:
+    center;
+  gap:
+    11px;
+  min-width:
+    0;
+}
+
+.review-avatar,
+.review-comment-avatar {
+  width:
+    38px;
+  height:
+    38px;
+  flex:
+    0 0 38px;
+  object-fit:
+    cover;
+  border-radius:
+    50%;
+  border:
+    1px solid rgba(255,255,255,0.12);
+  background:
+    rgba(255,255,255,0.06);
+}
+
+.review-avatar-fallback {
+  display:
+    flex;
+  align-items:
+    center;
+  justify-content:
+    center;
+  color:
+    rgba(255,255,255,0.8);
+  font-size:
+    12px;
+}
+
+.review-user-info > div:last-child,
+.review-comment-user > div:last-child {
+  display:
+    flex;
+  flex-direction:
+    column;
+  gap:
+    3px;
+  min-width:
+    0;
+}
+
+.review-user-info strong,
+.review-comment-user strong {
+  overflow:
+    hidden;
+  text-overflow:
+    ellipsis;
+  white-space:
+    nowrap;
+  color:
+    rgba(255,255,255,0.84);
+  font-size:
+    11px;
+  font-weight:
+    500;
+}
+
+.review-user-info span,
+.review-comment-user span {
+  font-family:
+    var(--font-geist-mono), monospace;
+  font-size:
+    6px;
+  letter-spacing:
+    0.12em;
+  color:
+    rgba(255,255,255,0.28);
+}
+
+.review-signout {
+  flex:
+    0 0 auto;
+  padding:
+    7px 9px;
+  border:
+    1px solid rgba(255,255,255,0.08);
+  border-radius:
+    999px;
+  background:
+    transparent;
+  color:
+    rgba(255,255,255,0.32);
+  font-family:
+    var(--font-geist-mono), monospace;
+  font-size:
+    6px;
+  letter-spacing:
+    0.1em;
+  cursor:
+    pointer;
+}
+
+.review-signout:hover {
+  color:
+    rgba(255,255,255,0.72);
+  border-color:
+    rgba(255,255,255,0.16);
+}
+
+.review-status {
+  margin:
+    12px 0 0;
+  font-family:
+    var(--font-geist-mono), monospace;
+  font-size:
+    7px;
+  letter-spacing:
+    0.08em;
   color:
     rgba(255,255,255,0.42);
 }
+
+.review-list-section {
+  margin-top:
+    58px;
+  padding-top:
+    28px;
+  border-top:
+    1px solid rgba(255,255,255,0.08);
+}
+
+.review-list-heading {
+  display:
+    flex;
+  align-items:
+    flex-end;
+  justify-content:
+    space-between;
+  gap:
+    20px;
+}
+
+.review-list-heading h3 {
+  margin:
+    0;
+  font-size:
+    clamp(22px, 3vw, 36px);
+  line-height:
+    1;
+  font-weight:
+    450;
+  letter-spacing:
+    -0.04em;
+  color:
+    rgba(255,255,255,0.84);
+}
+
+.review-count {
+  padding-bottom:
+    3px;
+  font-family:
+    var(--font-geist-mono), monospace;
+  font-size:
+    7px;
+  letter-spacing:
+    0.14em;
+  color:
+    rgba(255,255,255,0.25);
+}
+
+.review-list {
+  display:
+    grid;
+  gap:
+    10px;
+  margin-top:
+    20px;
+}
+
+.review-comment-card {
+  padding:
+    17px 18px;
+  border:
+    1px solid rgba(255,255,255,0.08);
+  border-radius:
+    20px;
+  background:
+    rgba(255,255,255,0.025);
+  box-shadow:
+    inset 0 1px rgba(255,255,255,0.05);
+  backdrop-filter:
+    blur(18px);
+  -webkit-backdrop-filter:
+    blur(18px);
+}
+
+.review-comment-top {
+  display:
+    flex;
+  align-items:
+    center;
+  justify-content:
+    space-between;
+  gap:
+    15px;
+}
+
+.review-comment-stars {
+  display:
+    flex;
+  gap:
+    2px;
+  font-size:
+    10px;
+  white-space:
+    nowrap;
+  color:
+    rgba(255,255,255,0.14);
+}
+
+.review-comment-stars .filled {
+  color:
+    rgba(255,255,255,0.82);
+  text-shadow:
+    0 0 12px rgba(255,255,255,0.16);
+}
+
+.review-comment-text {
+  margin:
+    14px 0 0 49px;
+  color:
+    rgba(255,255,255,0.58);
+  font-size:
+    12px;
+  line-height:
+    1.65;
+}
+
+.review-empty-state {
+  margin-top:
+    20px;
+  min-height:
+    105px;
+  display:
+    flex;
+  flex-direction:
+    column;
+  align-items:
+    center;
+  justify-content:
+    center;
+  gap:
+    7px;
+  border:
+    1px solid rgba(255,255,255,0.07);
+  border-radius:
+    20px;
+  background:
+    rgba(255,255,255,0.02);
+  color:
+    rgba(255,255,255,0.22);
+  font-family:
+    var(--font-geist-mono), monospace;
+  font-size:
+    7px;
+  letter-spacing:
+    0.12em;
+}
+
+.review-empty-state span {
+  font-size:
+    16px;
+  letter-spacing:
+    3px;
+  color:
+    rgba(255,255,255,0.16);
+}
+
+.review-empty-state p {
+  margin:
+    0;
+}
+
+@media (max-width: 800px) {
+  .review-layout {
+    grid-template-columns:
+      1fr;
+    gap:
+      30px;
+    min-height:
+      auto;
+  }
+
+  .review-box {
+    padding:
+      22px;
+  }
+
+  .review-list-heading {
+    align-items:
+      flex-start;
+    flex-direction:
+      column;
+    gap:
+      10px;
+  }
+
+  .review-comment-top {
+    align-items:
+      flex-start;
+    flex-direction:
+      column;
+  }
+
+  .review-comment-text {
+    margin-left:
+      0;
+  }
+}
+
+
 /* =========================================================
-   DEXTRO PERSONAL INTRO
+   DEXTRO PERFORMANCE OPTIMIZATION
+   Keeps the Glass OS appearance while reducing laptop load.
 ========================================================= */
 
-.about-description {
-  max-width: 470px;
+/*
+ * YouTube cards do not render their animated glow until they
+ * are close to the viewport.
+ */
+.video-ambient-glow {
+  opacity: 0;
+  filter: blur(36px);
+  transition:
+    opacity 0.45s ease,
+    filter 0.45s ease;
+}
 
-  margin: 32px 0;
+.video-ambient-glow.is-active {
+  opacity: 0.52;
+}
 
-  color: rgba(255, 255, 255, 0.72);
+.project-card:hover
+.video-ambient-glow.is-active {
+  opacity: 0.68;
+  filter: blur(42px);
+}
 
-  font-family:
-    "Segoe Script",
-    "Bradley Hand",
-    "Brush Script MT",
-    cursive;
+/*
+ * The glow animations do less work than the original version.
+ * They still move, but at a slower cadence.
+ */
+.ambient-orb-one {
+  animation-duration: 14s;
+}
 
-  font-size: 18px;
+.ambient-orb-two {
+  animation-duration: 18s;
+}
 
-  font-weight: 400;
+.ambient-orb-three {
+  animation-duration: 24s;
+}
 
-  line-height: 1.6;
+/*
+ * Don't spend paint/compositing time on inactive YouTube
+ * player areas.
+ */
+.youtube-project-card {
+  isolation: isolate;
+}
 
-  letter-spacing: 0.01em;
+.youtube-project-image {
+  contain: layout style;
+}
 
-  text-wrap: balance;
+/*
+ * Keep the YouTube iframe itself from creating unnecessary
+ * visual effects around its bounds.
+ */
+.youtube-player {
+  contain: layout style;
+}
+
+/*
+ * The page-level atmospheric orbs are intentionally softer.
+ * This keeps the same visual language without continuously
+ * processing an extremely large blurred layer.
+ */
+.orb {
+  filter: blur(100px);
+  opacity: 0.12;
+}
+
+/*
+ * On devices that already advertise reduced motion, remove
+ * all continuous glow animation.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .ambient-orb-one,
+  .ambient-orb-two,
+  .ambient-orb-three,
+  .orb-one,
+  .orb-two {
+    animation: none !important;
+  }
+
+  .video-ambient-glow {
+    transition: none;
+  }
 }
