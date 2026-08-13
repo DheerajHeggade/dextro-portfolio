@@ -667,11 +667,11 @@ img {
   gap:
     31px;
 
-  min-height:
-    47px;
+  min-width:
+    155px;
 
   padding:
-    8px 14px;
+    15px 18px;
 
   border:
     1px solid
@@ -909,127 +909,232 @@ img {
 
 
 /* =========================================================
-   CURRENT WORK / TEAM + ABOUT ACTIONS
+   CURRENT WORK / TEAM
 ========================================================= */
 
-.about-actions {
-  display: flex;
-  align-items: stretch;
-  gap: 14px;
-  width: 100%;
-  margin-top: 2px;
-}
-
 .creative-collaboration {
-  display: flex;
-  flex: 1 1 0;
-  min-width: 0;
-  min-height: 76px;
-  align-items: center;
-  gap: 16px;
-  margin: 0;
-  padding: 10px 20px 10px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(255,255,255,.065), rgba(255,255,255,.018));
-  box-shadow: inset 0 1px rgba(255,255,255,.09), 0 18px 45px rgba(0,0,0,.22);
-  backdrop-filter: blur(26px) saturate(135%);
-  -webkit-backdrop-filter: blur(26px) saturate(135%);
-  transition: border-color .25s ease, background .25s ease, box-shadow .25s ease;
-}
+  display:
+    inline-flex;
 
-.creative-collaboration:hover {
-  border-color: rgba(255,255,255,.24);
-  background: linear-gradient(135deg, rgba(255,255,255,.085), rgba(255,255,255,.025));
-  box-shadow: inset 0 1px rgba(255,255,255,.12), 0 20px 50px rgba(0,0,0,.28);
+  align-items:
+    center;
+
+  gap:
+    12px;
+
+  margin:
+    2px 0 22px;
+
+  padding:
+    8px 14px 8px 8px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.10);
+
+  border-radius:
+    999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.018)
+    );
+
+  box-shadow:
+    inset 0 1px
+      rgba(255, 255, 255, 0.08),
+
+    0 12px 35px
+      rgba(0, 0, 0, 0.20);
+
+  backdrop-filter:
+    blur(22px);
+
+  -webkit-backdrop-filter:
+    blur(22px);
 }
 
 .company-mark {
-  width: 58px;
-  height: 58px;
-  flex: 0 0 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.17);
-  border-radius: 20px;
-  background: rgba(255,255,255,.035);
-  box-shadow: inset 0 1px rgba(255,255,255,.10), 0 10px 28px rgba(0,0,0,.25);
+  width:
+    47px;
+
+  height:
+    47px;
+
+  flex:
+    0 0 47px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  box-shadow:
+    inset 0 1px
+      rgba(255, 255, 255, 0.10),
+
+    0 8px 25px
+      rgba(0, 0, 0, 0.22);
 }
 
 .company-mark img {
-  width: 44px;
-  height: 34px;
-  object-fit: contain;
-  display: block;
-  opacity: .94;
-  filter: brightness(1.15) drop-shadow(0 3px 10px rgba(255,255,255,.10));
+  width:
+    36px;
+
+  height:
+    24px;
+
+  object-fit:
+    contain;
+
+  display:
+    block;
+
+  opacity:
+    0.92;
+
+  filter:
+    brightness(1.15)
+    drop-shadow(
+      0 3px 10px
+      rgba(255, 255, 255, 0.10)
+    );
 }
 
 .company-copy {
-  min-width: 0;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    2px;
 }
 
 .company-label,
 .team-label {
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 8px;
-  line-height: 1.25;
-  letter-spacing: .16em;
-  color: rgba(255,255,255,.52);
+  font-family:
+    var(--font-geist-mono),
+    monospace;
+
+  font-size:
+    7px;
+
+  line-height:
+    1.3;
+
+  letter-spacing:
+    0.15em;
+
+  color:
+    rgba(255, 255, 255, 0.48);
 }
 
 .company-copy strong {
-  display: block;
-  white-space: nowrap;
-  font-size: 18px;
-  line-height: 1.1;
-  font-weight: 500;
-  letter-spacing: .005em;
-  color: rgba(255,255,255,.92);
+  font-size:
+    13px;
+
+  line-height:
+    1.3;
+
+  font-weight:
+    500;
+
+  letter-spacing:
+    0.01em;
+
+  color:
+    rgba(255, 255, 255, 0.86);
 }
 
 .team-label {
-  display: block;
-  margin-top: 1px;
-  min-width: max-content;
-  white-space: nowrap;
-  color: rgba(255,255,255,.56);
+  margin-top:
+    1px;
+
+  color:
+    rgba(255, 255, 255, 0.52);
+
+  white-space:
+    nowrap;
 }
 
-.about-actions .glass-action {
-  flex: 1 1 0;
-  min-width: 0;
-  min-height: 76px;
-  margin: 0;
-  padding: 10px 24px;
-  gap: 30px;
-  border-radius: 999px;
-  font-size: 11px;
-  letter-spacing: .15em;
-  background: linear-gradient(135deg, rgba(255,255,255,.065), rgba(255,255,255,.018));
-  border-color: rgba(255,255,255,.16);
-  box-shadow: inset 0 1px rgba(255,255,255,.09), 0 18px 45px rgba(0,0,0,.22);
+
+/* =========================================================
+   ABOUT ACTION ALIGNMENT
+========================================================= */
+
+.creative-collaboration {
+  vertical-align:
+    middle;
 }
 
-.about-actions .glass-action:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.025));
-  border-color: rgba(255,255,255,.25);
-  box-shadow: inset 0 1px rgba(255,255,255,.13), 0 20px 50px rgba(0,0,0,.28);
+.creative-collaboration + .glass-action {
+  margin-left:
+    2px;
+
+  vertical-align:
+    middle;
 }
 
-.about-actions .glass-action span:last-child {
-  font-family: var(--font-geist-sans), sans-serif;
-  font-size: 22px;
-  line-height: 1;
-  letter-spacing: 0;
-  opacity: .9;
+/* Keep the two controls visually balanced on the same baseline. */
+.creative-collaboration,
+.creative-collaboration + .glass-action {
+  transform:
+    translateY(0);
+}
+
+.creative-collaboration:hover {
+  border-color:
+    rgba(255, 255, 255, 0.18);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.075),
+      rgba(255, 255, 255, 0.025)
+    );
+}
+
+/* =========================================================
+   CLEAR TEAM CAPTION
+========================================================= */
+
+.company-copy {
+  min-width:
+    145px;
+}
+
+.company-copy strong {
+  white-space:
+    nowrap;
+}
+
+.team-label {
+  display:
+    block;
+
+  min-width:
+    max-content;
 }
 
 /* =========================================================
@@ -2873,52 +2978,6 @@ img {
 
 @media (max-width: 800px) {
 
-  .about-actions {
-    gap: 10px;
-  }
-
-  .creative-collaboration,
-  .about-actions .glass-action {
-    min-height: 64px;
-  }
-
-  .creative-collaboration {
-    padding: 8px 14px 8px 8px;
-    gap: 10px;
-  }
-
-  .company-mark {
-    width: 48px;
-    height: 48px;
-    flex-basis: 48px;
-    border-radius: 17px;
-  }
-
-  .company-mark img {
-    width: 37px;
-    height: 29px;
-  }
-
-  .company-copy strong {
-    font-size: 14px;
-  }
-
-  .company-label,
-  .team-label {
-    font-size: 6.5px;
-  }
-
-  .about-actions .glass-action {
-    padding: 8px 15px;
-    gap: 16px;
-    font-size: 8px;
-  }
-
-  .about-actions .glass-action span:last-child {
-    font-size: 18px;
-  }
-
-
   .creative-collaboration {
     max-width:
       100%;
@@ -3372,718 +3431,166 @@ img {
   }
 }
 
-
 /* =========================================================
-   GOOGLE REVIEW AUTH + COMMENT CARDS
+   READABILITY / ABOUT ACTIONS FINAL PASS
 ========================================================= */
 
-.review-login-state {
-  display:
-    flex;
-  flex-direction:
-    column;
-  align-items:
-    flex-start;
-  gap:
-    14px;
+.about-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 2px 0 22px;
 }
 
-.review-login-icon {
-  width:
-    42px;
-  height:
-    42px;
-  display:
-    flex;
-  align-items:
-    center;
-  justify-content:
-    center;
-  border:
-    1px solid rgba(255,255,255,0.12);
-  border-radius:
-    50%;
-  background:
-    rgba(255,255,255,0.06);
-  color:
-    rgba(255,255,255,0.88);
-  font-size:
-    16px;
-  font-weight:
-    600;
-  box-shadow:
-    inset 0 1px rgba(255,255,255,0.08),
-    0 10px 30px rgba(0,0,0,0.25);
+.about-actions .creative-collaboration {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+  border-radius: 26px;
+  padding: 10px 18px 10px 10px;
+  gap: 14px;
+  border-color: rgba(255, 255, 255, 0.16);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025));
 }
 
-.review-login-title {
-  margin:
-    0;
-  font-family:
-    var(--font-geist-mono), monospace;
-  font-size:
-    8px;
-  letter-spacing:
-    0.14em;
-  color:
-    rgba(255,255,255,0.45);
+.about-actions .company-mark {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
 }
 
-.review-login-copy {
-  margin:
-    7px 0 0;
-  font-size:
-    12px;
-  color:
-    rgba(255,255,255,0.65);
+.about-actions .company-mark img {
+  width: 43px;
+  height: 30px;
+  opacity: 0.98;
+  filter: brightness(1.2) contrast(1.05);
 }
 
-.google-review-button {
-  width:
-    100%;
-  min-height:
-    48px;
-  display:
-    flex;
-  align-items:
-    center;
-  justify-content:
-    center;
-  gap:
-    11px;
-  padding:
-    12px 16px;
-  border:
-    1px solid rgba(255,255,255,0.13);
-  border-radius:
-    999px;
-  background:
-    rgba(255,255,255,0.055);
-  color:
-    rgba(255,255,255,0.82);
-  font-family:
-    var(--font-geist-mono), monospace;
-  font-size:
-    7px;
-  letter-spacing:
-    0.12em;
-  cursor:
-    pointer;
-  box-shadow:
-    inset 0 1px rgba(255,255,255,0.08),
-    0 12px 35px rgba(0,0,0,0.2);
-  backdrop-filter:
-    blur(20px);
-  -webkit-backdrop-filter:
-    blur(20px);
+.about-actions .company-copy {
+  min-width: 0;
+  gap: 4px;
 }
 
-.google-review-button:hover {
-  border-color:
-    rgba(255,255,255,0.24);
-  background:
-    rgba(255,255,255,0.09);
+.about-actions .company-label {
+  font-size: 8px;
+  line-height: 1.25;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.68);
 }
 
-.google-g-mark {
-  width:
-    22px;
-  height:
-    22px;
-  display:
-    flex;
-  align-items:
-    center;
-  justify-content:
-    center;
-  border-radius:
-    50%;
-  background:
-    rgba(255,255,255,0.92);
-  color:
-    #111;
-  font-family:
-    Arial, sans-serif;
-  font-size:
-    12px;
-  font-weight:
-    700;
-  letter-spacing:
-    0;
+.about-actions .company-copy strong {
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.96);
 }
 
-.review-user-bar {
-  display:
-    flex;
-  align-items:
-    center;
-  justify-content:
-    space-between;
-  gap:
-    14px;
-  margin-bottom:
-    24px;
-  padding-bottom:
-    18px;
-  border-bottom:
-    1px solid rgba(255,255,255,0.07);
+.about-actions .team-label {
+  margin-top: 0;
+  font-size: 8.5px;
+  line-height: 1.25;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.68);
 }
 
-.review-user-info,
-.review-comment-user {
-  display:
-    flex;
-  align-items:
-    center;
-  gap:
-    11px;
-  min-width:
-    0;
+.about-actions .glass-action {
+  flex: 0 0 auto;
+  min-width: 190px;
+  min-height: 78px;
+  padding: 16px 21px;
+  gap: 28px;
+  border-radius: 26px;
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  border-color: rgba(255, 255, 255, 0.17);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025));
+  color: rgba(255, 255, 255, 0.96);
 }
 
-.review-avatar,
-.review-comment-avatar {
-  width:
-    38px;
-  height:
-    38px;
-  flex:
-    0 0 38px;
-  object-fit:
-    cover;
-  border-radius:
-    50%;
-  border:
-    1px solid rgba(255,255,255,0.12);
-  background:
-    rgba(255,255,255,0.06);
+.about-actions .glass-action span:last-child {
+  font-size: 20px;
+  line-height: 1;
 }
 
-.review-avatar-fallback {
-  display:
-    flex;
-  align-items:
-    center;
-  justify-content:
-    center;
-  color:
-    rgba(255,255,255,0.8);
-  font-size:
-    12px;
-}
-
-.review-user-info > div:last-child,
-.review-comment-user > div:last-child {
-  display:
-    flex;
-  flex-direction:
-    column;
-  gap:
-    3px;
-  min-width:
-    0;
-}
-
-.review-user-info strong,
-.review-comment-user strong {
-  overflow:
-    hidden;
-  text-overflow:
-    ellipsis;
-  white-space:
-    nowrap;
-  color:
-    rgba(255,255,255,0.84);
-  font-size:
-    11px;
-  font-weight:
-    500;
-}
-
-.review-user-info span,
-.review-comment-user span {
-  font-family:
-    var(--font-geist-mono), monospace;
-  font-size:
-    6px;
-  letter-spacing:
-    0.12em;
-  color:
-    rgba(255,255,255,0.28);
-}
-
-.review-signout {
-  flex:
-    0 0 auto;
-  padding:
-    7px 9px;
-  border:
-    1px solid rgba(255,255,255,0.08);
-  border-radius:
-    999px;
-  background:
-    transparent;
-  color:
-    rgba(255,255,255,0.32);
-  font-family:
-    var(--font-geist-mono), monospace;
-  font-size:
-    6px;
-  letter-spacing:
-    0.1em;
-  cursor:
-    pointer;
-}
-
-.review-signout:hover {
-  color:
-    rgba(255,255,255,0.72);
-  border-color:
-    rgba(255,255,255,0.16);
-}
-
-.review-status {
-  margin:
-    12px 0 0;
-  font-family:
-    var(--font-geist-mono), monospace;
-  font-size:
-    7px;
-  letter-spacing:
-    0.08em;
-  color:
-    rgba(255,255,255,0.42);
-}
-
-.review-list-section {
-  margin-top:
-    58px;
-  padding-top:
-    28px;
-  border-top:
-    1px solid rgba(255,255,255,0.08);
-}
-
-.review-list-heading {
-  display:
-    flex;
-  align-items:
-    flex-end;
-  justify-content:
-    space-between;
-  gap:
-    20px;
-}
-
-.review-list-heading h3 {
-  margin:
-    0;
-  font-size:
-    clamp(22px, 3vw, 36px);
-  line-height:
-    1;
-  font-weight:
-    450;
-  letter-spacing:
-    -0.04em;
-  color:
-    rgba(255,255,255,0.84);
-}
-
-.review-count {
-  padding-bottom:
-    3px;
-  font-family:
-    var(--font-geist-mono), monospace;
-  font-size:
-    7px;
-  letter-spacing:
-    0.14em;
-  color:
-    rgba(255,255,255,0.25);
-}
-
-.review-list {
-  display:
-    grid;
-  gap:
-    10px;
-  margin-top:
-    20px;
-}
-
-.review-comment-card {
-  padding:
-    17px 18px;
-  border:
-    1px solid rgba(255,255,255,0.08);
-  border-radius:
-    20px;
-  background:
-    rgba(255,255,255,0.025);
-  box-shadow:
-    inset 0 1px rgba(255,255,255,0.05);
-  backdrop-filter:
-    blur(18px);
-  -webkit-backdrop-filter:
-    blur(18px);
-}
-
-.review-comment-top {
-  display:
-    flex;
-  align-items:
-    center;
-  justify-content:
-    space-between;
-  gap:
-    15px;
-}
-
-.review-comment-stars {
-  display:
-    flex;
-  gap:
-    2px;
-  font-size:
-    10px;
-  white-space:
-    nowrap;
-  color:
-    rgba(255,255,255,0.14);
-}
-
-.review-comment-stars .filled {
-  color:
-    rgba(255,255,255,0.82);
-  text-shadow:
-    0 0 12px rgba(255,255,255,0.16);
-}
-
-.review-comment-text {
-  margin:
-    14px 0 0 49px;
-  color:
-    rgba(255,255,255,0.58);
-  font-size:
-    12px;
-  line-height:
-    1.65;
-}
-
-.review-empty-state {
-  margin-top:
-    20px;
-  min-height:
-    105px;
-  display:
-    flex;
-  flex-direction:
-    column;
-  align-items:
-    center;
-  justify-content:
-    center;
-  gap:
-    7px;
-  border:
-    1px solid rgba(255,255,255,0.07);
-  border-radius:
-    20px;
-  background:
-    rgba(255,255,255,0.02);
-  color:
-    rgba(255,255,255,0.22);
-  font-family:
-    var(--font-geist-mono), monospace;
-  font-size:
-    7px;
-  letter-spacing:
-    0.12em;
-}
-
-.review-empty-state span {
-  font-size:
-    16px;
-  letter-spacing:
-    3px;
-  color:
-    rgba(255,255,255,0.16);
-}
-
-.review-empty-state p {
-  margin:
-    0;
+.about-actions .glass-action:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.035));
 }
 
 @media (max-width: 800px) {
-  .review-layout {
-    grid-template-columns:
-      1fr;
-    gap:
-      30px;
-    min-height:
-      auto;
+  .about-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin: 2px 0 28px;
   }
 
-  .review-box {
-    padding:
-      22px;
+  .about-actions .creative-collaboration {
+    width: 100%;
+    flex: none;
+    min-height: 76px;
+    padding: 9px 15px 9px 9px;
+    border-radius: 24px;
   }
 
-  .review-list-heading {
-    align-items:
-      flex-start;
-    flex-direction:
-      column;
-    gap:
-      10px;
+  .about-actions .company-mark {
+    width: 56px;
+    height: 56px;
+    flex-basis: 56px;
   }
 
-  .review-comment-top {
-    align-items:
-      flex-start;
-    flex-direction:
-      column;
+  .about-actions .company-copy strong {
+    font-size: clamp(14px, 4.2vw, 16px);
   }
 
-  .review-comment-text {
-    margin-left:
-      0;
-  }
-}
-
-
-/* =========================================================
-   DEXTRO PERFORMANCE OPTIMIZATION
-   Keeps the Glass OS appearance while reducing laptop load.
-========================================================= */
-
-/*
- * YouTube cards do not render their animated glow until they
- * are close to the viewport.
- */
-.video-ambient-glow {
-  opacity: 0;
-  filter: blur(36px);
-  transition:
-    opacity 0.45s ease,
-    filter 0.45s ease;
-}
-
-.video-ambient-glow.is-active {
-  opacity: 0.52;
-}
-
-.project-card:hover
-.video-ambient-glow.is-active {
-  opacity: 0.68;
-  filter: blur(42px);
-}
-
-/*
- * The glow animations do less work than the original version.
- * They still move, but at a slower cadence.
- */
-.ambient-orb-one {
-  animation-duration: 14s;
-}
-
-.ambient-orb-two {
-  animation-duration: 18s;
-}
-
-.ambient-orb-three {
-  animation-duration: 24s;
-}
-
-/*
- * Don't spend paint/compositing time on inactive YouTube
- * player areas.
- */
-.youtube-project-card {
-  isolation: isolate;
-}
-
-.youtube-project-image {
-  contain: layout style;
-}
-
-/*
- * Keep the YouTube iframe itself from creating unnecessary
- * visual effects around its bounds.
- */
-.youtube-player {
-  contain: layout style;
-}
-
-/*
- * The page-level atmospheric orbs are intentionally softer.
- * This keeps the same visual language without continuously
- * processing an extremely large blurred layer.
- */
-.orb {
-  filter: blur(100px);
-  opacity: 0.12;
-}
-
-/*
- * On devices that already advertise reduced motion, remove
- * all continuous glow animation.
- */
-@media (prefers-reduced-motion: reduce) {
-  .ambient-orb-one,
-  .ambient-orb-two,
-  .ambient-orb-three,
-  .orb-one,
-  .orb-two {
-    animation: none !important;
+  .about-actions .company-label,
+  .about-actions .team-label {
+    font-size: 8px;
   }
 
-  .video-ambient-glow {
-    transition: none;
-  }
-}
-/* =========================================================
-   DEXTRO — MOBILE PERFORMANCE MODE
-   Keeps the visual design, reduces GPU/paint workload.
-========================================================= */
-
-@media (max-width: 700px) {
-
-  /* -------------------------------------------------------
-     1. Disable expensive continuous atmospheric animation
-  ------------------------------------------------------- */
-
-  .ambient-orb-one,
-  .ambient-orb-two,
-  .ambient-orb-three,
-  .orb-one,
-  .orb-two {
-    animation: none !important;
+  .about-actions .glass-action {
+    width: 100%;
+    min-width: 0;
+    min-height: 64px;
+    padding: 16px 20px;
+    border-radius: 24px;
+    font-size: 9px;
+    gap: 18px;
   }
 
-
-  /* -------------------------------------------------------
-     2. Make background atmosphere cheaper
-  ------------------------------------------------------- */
-
-  .orb {
-    filter: blur(70px);
-    opacity: 0.08;
-  }
-
-
-  /* -------------------------------------------------------
-     3. Remove expensive backdrop blur from heavy elements
-        while keeping the glass appearance
-  ------------------------------------------------------- */
-
-  .youtube-open-button,
-  .youtube-project-number,
-  .youtube-muted-indicator,
-  .custom-video-play {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-
-    background: rgba(15, 15, 15, 0.72);
-  }
-
-
-  /* -------------------------------------------------------
-     4. YouTube cards
-  ------------------------------------------------------- */
-
-  .youtube-project-card {
-    contain: layout paint;
-  }
-
-  .youtube-project-image {
-    contain: layout paint;
-  }
-
-  .youtube-player {
-    contain: strict;
-  }
-
-
-  /* -------------------------------------------------------
-     5. Don't animate heavy video glow on phones
-  ------------------------------------------------------- */
-
-  .video-ambient-glow {
-    animation: none !important;
-    transition: opacity 0.25s ease;
-  }
-
-
-  /* -------------------------------------------------------
-     6. Simplify project hover effects
-        Phones don't have real hover anyway.
-  ------------------------------------------------------- */
-
-  .youtube-project-card:hover {
-    transform: none !important;
-  }
-
-  .youtube-project-card:hover .video-ambient-glow {
-    opacity: 0.5;
-  }
-
-
-  /* -------------------------------------------------------
-     7. Reduce expensive shadows
-  ------------------------------------------------------- */
-
-  .youtube-project-card,
-  .youtube-player {
-    box-shadow: none;
-  }
-
-
-  /* -------------------------------------------------------
-     8. Keep scrolling smooth
-  ------------------------------------------------------- */
-
-  html {
-    scroll-behavior: auto;
-  }
-
-  body {
-    overscroll-behavior-x: none;
-  }
-
-
-  /* -------------------------------------------------------
-     9. Prevent accidental GPU promotion everywhere
-  ------------------------------------------------------- */
-
-  .youtube-project-card,
-  .youtube-project-image,
-  .youtube-player,
-  .youtube-glass-overlay {
-    will-change: auto;
+  .about-actions .glass-action span:last-child {
+    font-size: 20px;
   }
 }
 
-
-/* =========================================================
-   DEXTRO — VERY SMALL PHONES
-========================================================= */
-
-@media (max-width: 430px) {
-
-  .orb {
-    filter: blur(55px);
-    opacity: 0.06;
+@media (max-width: 420px) {
+  .about-actions .creative-collaboration {
+    min-height: 72px;
+    padding-right: 12px;
   }
 
-  .youtube-project-card {
-    contain: layout paint;
+  .about-actions .company-mark {
+    width: 52px;
+    height: 52px;
+    flex-basis: 52px;
   }
 
-  .youtube-glass-overlay {
-    box-shadow: none;
+  .about-actions .company-mark img {
+    width: 40px;
+    height: 28px;
   }
 
+  .about-actions .company-label,
+  .about-actions .team-label {
+    font-size: 7.5px;
+    letter-spacing: 0.1em;
+  }
+
+  .about-actions .company-copy strong {
+    font-size: 14px;
+  }
 }
