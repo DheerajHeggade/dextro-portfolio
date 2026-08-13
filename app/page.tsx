@@ -371,91 +371,6 @@ export default function Home() {
   const [portraitIntensity, setPortraitIntensity] =
     useState(0);
 
-  useEffect(() => {
-    let mounted = true;
-
-    const restoreReviewAfterAuth = async () => {
-      const returnSection =
-        window.sessionStorage.getItem(
-          "dextro-review-return"
-        );
-
-      /*
-       * If Google returned a PKCE authorization code,
-       * exchange it explicitly. This makes the OAuth flow
-       * reliable even when the browser does not automatically
-       * finish the callback before React mounts.
-       */
-      const url = new URL(window.location.href);
-      const code = url.searchParams.get("code");
-
-      if (code) {
-        const { error } =
-          await supabase.auth.exchangeCodeForSession(
-            code
-          );
-
-        if (error) {
-          console.error(
-            "OAuth callback error:",
-            error
-          );
-        } else {
-          url.searchParams.delete("code");
-          window.history.replaceState(
-            {},
-            document.title,
-            url.pathname +
-              url.search +
-              url.hash
-          );
-        }
-      }
-
-      if (!mounted) {
-        return;
-      }
-
-      if (returnSection === "review" || code) {
-        window.sessionStorage.removeItem(
-          "dextro-review-return"
-        );
-
-        setActive("review");
-      }
-    };
-
-    void restoreReviewAfterAuth();
-
-    /*
-     * Catch the SIGNED_IN event at page level so Review is
-     * restored even if Supabase finishes OAuth after the
-     * initial render.
-     */
-    const {
-      data: { subscription },
-    } =
-      supabase.auth.onAuthStateChange(
-        (event) => {
-          if (
-            mounted &&
-            event === "SIGNED_IN"
-          ) {
-            window.sessionStorage.removeItem(
-              "dextro-review-return"
-            );
-
-            setActive("review");
-          }
-        }
-      );
-
-    return () => {
-      mounted = false;
-      subscription.unsubscribe();
-    };
-  }, []);
-
   const handlePortraitMove = (
     event: React.MouseEvent<HTMLDivElement>
   ) => {
@@ -591,71 +506,69 @@ export default function Home() {
                 <div className="about-copy">
 
                   <motion.div
-                    initial={{
-                      opacity: 0,
-                      y: 18,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{
-                      delay: 0.12,
-                      duration: 0.55,
+                      duration: 0.65,
+                      ease: [0.22, 1, 0.36, 1],
                     }}
                   >
 
-                    <p className="eyebrow">
+                    <div className="about-kicker">
+                      <span className="about-kicker-dot" />
+                      <span>01 / CREATIVE PROFILE</span>
+                    </div>
+
+                    <p className="eyebrow about-role">
                       CINEMATIC EDITOR / MOTION DESIGNER
                     </p>
 
-                    <h1>
-                      DEXTRO
+                    <h1 className="about-title">
+                      DEXTRO<span>.</span>
                     </h1>
 
+                    <div className="about-rule" />
+
                     <p className="about-description">
-                      Hey, I&apos;m Dheeraj — a
-                      creative editor and visual
-                      designer who loves turning
-                      simple ideas into visuals
-                      that feel cinematic,
-                      meaningful and alive.
-                      I&apos;m always experimenting
-                      with editing, motion,
-                      sound and design to create
-                      work that people actually
-                      remember.
+                      Hey, I&apos;m Dheeraj — a creative editor and visual designer
+                      focused on turning simple ideas into visuals that feel
+                      cinematic, meaningful and alive.
                     </p>
+
+                    <p className="about-description about-description-secondary">
+                      I work across editing, motion, sound, colour and visual
+                      design to create work that feels intentional, polished
+                      and memorable.
+                    </p>
+
+                    <div className="about-specialties">
+                      <span>EDITING</span>
+                      <span>MOTION</span>
+                      <span>COLOR</span>
+                      <span>DESIGN</span>
+                    </div>
 
                   </motion.div>
 
                   <motion.div
                     className="creative-collaboration"
-                    initial={{
-                      opacity: 0,
-                      y: 12,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{
-                      delay: 0.22,
-                      duration: 0.5,
+                      delay: 0.18,
+                      duration: 0.6,
+                      ease: [0.22, 1, 0.36, 1],
                     }}
                   >
 
                     <div className="company-mark">
-
                       <img
                         src="/Images/motion-mix-media-logo.png"
                         alt="Motion Mix Media"
                       />
-
                     </div>
 
                     <div className="company-copy">
-
                       <span className="company-label">
                         CURRENTLY WORKING AT
                       </span>
@@ -667,54 +580,45 @@ export default function Home() {
                       <span className="team-label">
                         TEAMMATE&nbsp; / &nbsp;Chandan S
                       </span>
+                    </div>
 
+                    <div className="company-status">
+                      <span className="company-status-dot" />
+                      ACTIVE
                     </div>
 
                   </motion.div>
 
                   <motion.button
                     type="button"
-                    className="glass-action"
-                    onClick={() =>
-                      setActive("work")
-                    }
-                    whileHover={{
-                      scale: 1.03,
-                    }}
-                    whileTap={{
-                      scale: 0.97,
-                    }}
+                    className="glass-action about-work-button"
+                    onClick={() => setActive("work")}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     <span>
-                      EXPLORE MY WORK
+                      EXPLORE SELECTED WORK
                     </span>
-
-                    <span aria-hidden="true">
+                    <span
+                      aria-hidden="true"
+                      className="about-button-arrow"
+                    >
                       ↗
                     </span>
                   </motion.button>
 
                 </div>
 
-                {/* =================================================
-                    PROFILE
-                ================================================= */}
-
                 <motion.div
-                  className="portrait-placeholder"
+                  className="portrait-placeholder about-portrait"
                   onMouseMove={handlePortraitMove}
                   onMouseLeave={handlePortraitLeave}
-                  initial={{
-                    opacity: 0,
-                    scale: 0.92,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                  }}
+                  initial={{ opacity: 0, scale: 0.94 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{
-                    delay: 0.2,
-                    duration: 0.7,
+                    delay: 0.12,
+                    duration: 0.75,
+                    ease: [0.22, 1, 0.36, 1],
                   }}
                 >
 
@@ -729,16 +633,22 @@ export default function Home() {
                       }}
                     />
 
-                    <div className="portrait-overlay">
+                    <div className="portrait-topline">
+                      <span>DXT / 001</span>
+                      <span>PROFILE</span>
+                    </div>
 
+                    <div className="portrait-overlay">
                       <span>
                         Dheeraj Heggade
                       </span>
-
                       <small>
                         CREATIVE / VISUALS
                       </small>
+                    </div>
 
+                    <div className="portrait-corner">
+                      AVAILABLE FOR CREATIVE WORK
                     </div>
 
                   </div>
@@ -749,9 +659,10 @@ export default function Home() {
 
               <div className="about-footer">
                 <span>EDITING</span>
-                <span>MOTION</span>
+                <span>MOTION DESIGN</span>
                 <span>COLOR</span>
-                <span>DESIGN</span>
+                <span>VISUAL DESIGN</span>
+                <span>DEXTRO / 001</span>
               </div>
 
             </OSWindow>
@@ -1089,6 +1000,9 @@ function OSWindow({
 ========================================================= */
 
 function ReviewSection() {
+  const [name, setName] =
+    useState("");
+
   const [rating, setRating] =
     useState(0);
 
@@ -1098,20 +1012,17 @@ function ReviewSection() {
   const [reviews, setReviews] =
     useState<{
       id: string;
-      user_id: string;
+      user_id: string | null;
       user_name: string;
-      user_avatar: string;
+      user_avatar: string | null;
       rating: number;
       review: string;
       created_at: string;
+      is_edited: boolean;
+      heart_count: number;
+      broken_heart_count: number;
+      my_reaction: "heart" | "broken_heart" | null;
     }[]>([]);
-
-  const [user, setUser] =
-    useState<{
-      id: string;
-      name: string;
-      avatar: string;
-    } | null>(null);
 
   const [loading, setLoading] =
     useState(true);
@@ -1121,6 +1032,15 @@ function ReviewSection() {
 
   const [message, setMessage] =
     useState("");
+
+  const [editingId, setEditingId] =
+    useState<string | null>(null);
+
+  const [deletingId, setDeletingId] =
+    useState<string | null>(null);
+
+  const [ownedReviewIds, setOwnedReviewIds] =
+    useState<string[]>([]);
 
   const words =
     review
@@ -1133,8 +1053,12 @@ function ReviewSection() {
       ? words.length
       : 0;
 
+  const cleanName =
+    name.trim();
+
   const canSubmit =
-    !!user &&
+    cleanName.length >= 2 &&
+    cleanName.length <= 40 &&
     rating > 0 &&
     wordCount > 0 &&
     wordCount <= 50 &&
@@ -1147,7 +1071,7 @@ function ReviewSection() {
     } = await supabase
       .from("reviews")
       .select(
-        "id, user_id, user_name, user_avatar, rating, review, created_at"
+        "id, user_id, user_name, user_avatar, rating, review, created_at, is_edited"
       )
       .order("created_at", {
         ascending: false,
@@ -1156,181 +1080,199 @@ function ReviewSection() {
     if (error) {
       console.error(
         "Supabase review load error:",
-        error
+        {
+          code: error.code,
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+        }
       );
 
       setMessage(
-        `Could not load reviews: ${error.message}`
+        "Could not load reviews right now."
       );
 
+      setReviews([]);
       return;
     }
 
-    setReviews(data ?? []);
+    if (data) {
+      const visitorId = getVisitorId();
+
+      let reactionRows: {
+        review_id: string;
+        heart_count: number;
+        broken_heart_count: number;
+        my_reaction: "heart" | "broken_heart" | null;
+      }[] = [];
+
+      if (visitorId) {
+        const { data: reactions, error: reactionError } =
+          await supabase.rpc("get_review_reactions", {
+            p_visitor_id: visitorId,
+          });
+
+        if (reactionError) {
+          console.error("Supabase reaction load error:", {
+            code: reactionError.code,
+            message: reactionError.message,
+            details: reactionError.details,
+            hint: reactionError.hint,
+          });
+        } else if (reactions) {
+          reactionRows = reactions as typeof reactionRows;
+        }
+      }
+
+      const reactionMap = new Map(
+        reactionRows.map((row) => [row.review_id, row])
+      );
+
+      setReviews(
+        data.map((item) => {
+          const reaction = reactionMap.get(item.id);
+
+          return {
+            ...item,
+            heart_count: Number(reaction?.heart_count ?? 0),
+            broken_heart_count: Number(
+              reaction?.broken_heart_count ?? 0
+            ),
+            my_reaction: reaction?.my_reaction ?? null,
+          };
+        })
+      );
+    }
   };
 
   useEffect(() => {
     let mounted = true;
 
-    const applySession = (
-      session: Awaited<
-        ReturnType<
-          typeof supabase.auth.getSession
-        >
-      >["data"]["session"]
-    ) => {
-      if (!mounted) {
-        return;
-      }
+    const initialise =
+      async () => {
+        await loadReviews();
 
-      if (!session?.user) {
-        setUser(null);
-        return;
-      }
+        const token = getEditToken();
 
-      const metadata =
-        session.user.user_metadata ?? {};
+        if (token) {
+          const { data } = await supabase.rpc(
+            "get_owned_review_ids",
+            { p_edit_token: token }
+          );
 
-      setUser({
-        id: session.user.id,
-        name:
-          metadata.full_name ||
-          metadata.name ||
-          session.user.email?.split("@")[0] ||
-          "Google User",
-        avatar:
-          metadata.avatar_url ||
-          metadata.picture ||
-          "",
-      });
-    };
-
-    const initialize = async () => {
-      setLoading(true);
-
-      const {
-        data,
-        error,
-      } = await supabase.auth.getSession();
-
-      if (!mounted) {
-        return;
-      }
-
-      if (error) {
-        console.error(
-          "Session error:",
-          error
-        );
-
-        setMessage(
-          `Could not load your Google session: ${error.message}`
-        );
-
-        setLoading(false);
-        return;
-      }
-
-      applySession(data.session);
-      await loadReviews();
-
-      if (mounted) {
-        setLoading(false);
-      }
-    };
-
-    void initialize();
-
-    const {
-      data: { subscription },
-    } =
-      supabase.auth.onAuthStateChange(
-        (event, session) => {
-          if (!mounted) {
-            return;
-          }
-
-          applySession(session);
-
-          if (
-            event === "SIGNED_IN" ||
-            event === "SIGNED_OUT"
-          ) {
-            setTimeout(() => {
-              if (!mounted) {
-                return;
-              }
-
-              void loadReviews();
-              setLoading(false);
-            }, 0);
+          if (mounted && data) {
+            setOwnedReviewIds(data as string[]);
           }
         }
-      );
+
+        if (mounted) {
+          setLoading(false);
+        }
+      };
+
+    initialise();
 
     return () => {
       mounted = false;
-      subscription.unsubscribe();
     };
   }, []);
 
-  const handleGoogleLogin = async () => {
-    setMessage("");
+  const handleReaction = async (
+    reviewId: string,
+    reaction: "heart" | "broken_heart"
+  ) => {
+    const visitorId = getVisitorId();
 
-    window.sessionStorage.setItem(
-      "dextro-review-return",
-      "review"
-    );
-
-    const {
-      data,
-      error,
-    } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo:
-          window.location.origin,
-        queryParams: {
-          access_type: "offline",
-          prompt: "select_account",
-        },
-      },
-    });
-
-    if (error) {
-      window.sessionStorage.removeItem(
-        "dextro-review-return"
-      );
-
-      console.error(
-        "Google OAuth error:",
-        error
-      );
-
-      setMessage(
-        error.message ||
-          "Google sign-in could not be started."
-      );
-
+    if (!visitorId) {
       return;
     }
 
-    if (!data?.url) {
-      window.sessionStorage.removeItem(
-        "dextro-review-return"
-      );
+    const current = reviews.find(
+      (item) => item.id === reviewId
+    );
 
-      setMessage(
-        "Google sign-in could not be started."
-      );
+    if (!current) {
+      return;
     }
-  };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setRating(0);
-    setReview("");
-    setMessage("");
+    const previousReaction = current.my_reaction;
+
+    setReviews((items) =>
+      items.map((item) => {
+        if (item.id !== reviewId) {
+          return item;
+        }
+
+        let heartCount = item.heart_count;
+        let brokenCount = item.broken_heart_count;
+
+        if (previousReaction === "heart") {
+          heartCount -= 1;
+        }
+
+        if (previousReaction === "broken_heart") {
+          brokenCount -= 1;
+        }
+
+        const nextReaction =
+          previousReaction === reaction
+            ? null
+            : reaction;
+
+        if (nextReaction === "heart") {
+          heartCount += 1;
+        }
+
+        if (nextReaction === "broken_heart") {
+          brokenCount += 1;
+        }
+
+        return {
+          ...item,
+          heart_count: Math.max(0, heartCount),
+          broken_heart_count: Math.max(0, brokenCount),
+          my_reaction: nextReaction,
+        };
+      })
+    );
+
+    const { data, error } = await supabase.rpc(
+      "toggle_review_reaction",
+      {
+        p_review_id: reviewId,
+        p_visitor_id: visitorId,
+        p_reaction: reaction,
+      }
+    );
+
+    if (error || !data?.[0]) {
+      console.error("Supabase reaction update error:", {
+        code: error?.code,
+        message: error?.message,
+        details: error?.details,
+        hint: error?.hint,
+      });
+
+      await loadReviews();
+      return;
+    }
+
+    const result = data[0];
+
+    setReviews((items) =>
+      items.map((item) =>
+        item.id === reviewId
+          ? {
+              ...item,
+              heart_count: Number(result.heart_count ?? 0),
+              broken_heart_count: Number(
+                result.broken_heart_count ?? 0
+              ),
+              my_reaction: result.my_reaction ?? null,
+            }
+          : item
+      )
+    );
   };
 
   const handleReviewChange = (
@@ -1350,44 +1292,221 @@ function ReviewSection() {
     setMessage("");
   };
 
+  const handleNameChange = (
+    value: string
+  ) => {
+    if (value.length > 40) {
+      return;
+    }
+
+    setName(value);
+    setMessage("");
+  };
+
+  const getVisitorId = () => {
+    if (typeof window === "undefined") {
+      return null;
+    }
+
+    const key = "dextro-review-visitor-id";
+    let existing = window.localStorage.getItem(key);
+
+    if (!existing) {
+      existing = crypto.randomUUID();
+      window.localStorage.setItem(key, existing);
+    }
+
+    return existing;
+  };
+
+  const getEditToken = () => {
+    if (typeof window === "undefined") {
+      return null;
+    }
+
+    const key = "dextro-review-edit-token";
+    let existing = window.localStorage.getItem(key);
+
+    if (!existing) {
+      existing = crypto.randomUUID();
+      window.localStorage.setItem(key, existing);
+    }
+
+    return existing;
+  };
+
+  const resetReviewForm = () => {
+    setEditingId(null);
+    setName("");
+    setRating(0);
+    setReview("");
+  };
+
+  const handleEdit = (item: typeof reviews[number]) => {
+    setEditingId(item.id);
+    setName(item.user_name);
+    setRating(item.rating);
+    setReview(item.review);
+    setMessage("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleDelete = async (id: string) => {
+    if (deletingId) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Delete your review? This cannot be undone."
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const token = getEditToken();
+    if (!token) {
+      setMessage("Could not verify review ownership.");
+      return;
+    }
+
+    setDeletingId(id);
+    setMessage("");
+
+    const { error } = await supabase.rpc(
+      "delete_review",
+      {
+        p_review_id: id,
+        p_edit_token: token,
+      }
+    );
+
+    if (error) {
+      console.error("Supabase review delete error:", {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+      });
+      setMessage("Could not delete your review. Please try again.");
+      setDeletingId(null);
+      return;
+    }
+
+    setReviews((current) =>
+      current.filter((item) => item.id !== id)
+    );
+
+    setOwnedReviewIds((current) =>
+      current.filter((reviewId) => reviewId !== id)
+    );
+
+    if (editingId === id) {
+      resetReviewForm();
+    }
+
+    setMessage("Review deleted successfully.");
+    setDeletingId(null);
+  };
+
   const handleSubmit = async () => {
-    if (!canSubmit || !user) {
+    if (!canSubmit) {
       return;
     }
 
     setSubmitting(true);
     setMessage("");
 
-    const { error } =
-      await supabase
-        .from("reviews")
-        .insert({
-          user_id: user.id,
-          user_name: user.name,
-          user_avatar: user.avatar,
-          rating,
-          review: review.trim(),
+    const visitorId = getVisitorId();
+    const editToken = getEditToken();
+
+    if (!visitorId || !editToken) {
+      setMessage("Could not prepare your review. Please try again.");
+      setSubmitting(false);
+      return;
+    }
+
+    if (editingId) {
+      const { error } = await supabase.rpc(
+        "update_review",
+        {
+          p_review_id: editingId,
+          p_edit_token: editToken,
+          p_user_name: cleanName,
+          p_rating: rating,
+          p_review: review.trim(),
+        }
+      );
+
+      if (error) {
+        console.error("Supabase review update error:", {
+          code: error.code,
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
         });
+        setMessage("Could not update your review. Please try again.");
+        setSubmitting(false);
+        return;
+      }
+
+      resetReviewForm();
+      setMessage("Review updated successfully.");
+      await loadReviews();
+      setSubmitting(false);
+      return;
+    }
+
+    const {
+      error,
+    } = await supabase.rpc(
+      "create_review",
+      {
+        p_edit_token: editToken,
+        p_user_id: visitorId,
+        p_user_name: cleanName,
+        p_rating: rating,
+        p_review: review.trim(),
+      }
+    );
 
     if (error) {
       console.error(
-        "Supabase review insert error:",
-        error
+        "Supabase review submit error:",
+        {
+          code: error.code,
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+        }
       );
 
       setMessage(
-        `Could not post your review: ${error.message}`
+        "Could not post your review. Please try again."
       );
 
       setSubmitting(false);
       return;
     }
 
-    setRating(0);
-    setReview("");
-    setMessage("Review posted successfully.");
+    resetReviewForm();
+    setMessage(
+      "Review posted successfully."
+    );
 
     await loadReviews();
+
+    if (editToken) {
+      const { data: ownedIds } = await supabase.rpc(
+        "get_owned_review_ids",
+        { p_edit_token: editToken }
+      );
+
+      if (ownedIds) {
+        setOwnedReviewIds(ownedIds as string[]);
+      }
+    }
+
     setSubmitting(false);
   };
 
@@ -1400,212 +1519,245 @@ function ReviewSection() {
 
       <div className="review-layout">
 
-        <div>
+        <div className="review-intro">
+
+          <div className="review-section-index">
+            <span>03</span>
+            <span>CLIENT FEEDBACK</span>
+          </div>
+
+          <div className="review-logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" role="presentation">
+              <rect
+                x="8"
+                y="8"
+                width="48"
+                height="48"
+                rx="18"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
+              <path
+                d="M19 25h26M19 32h18M19 39h12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <circle
+                cx="45"
+                cy="40"
+                r="3"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
 
           <p className="eyebrow">
             CLIENT FEEDBACK
           </p>
 
-          <h2>
-            YOUR TAKE.
+          <h2 className="review-title">
+            YOUR
+            <br />
+            TAKE<span>.</span>
           </h2>
 
           <p className="review-description">
-            Seen the work? Tell me what
-            you think. A quick rating and
-            a short note is all it takes.
+            Seen the work? Tell me what you think.
+            A quick rating and a short note is all
+            it takes.
           </p>
+
+          <div className="review-intro-meta">
+            <span>01</span><span>RATE</span>
+            <span>02</span><span>WRITE</span>
+            <span>03</span><span>SHARE</span>
+          </div>
 
         </div>
 
         <div className="review-box">
 
-          {!user ? (
-            <div className="review-login-state">
-              <div className="review-login-icon">
-                G
-              </div>
+          <div className="review-form-header">
 
-              <div>
-                <p className="review-login-title">
-                  LEAVE A REVIEW
-                </p>
-
-                <p className="review-login-copy">
-                  Sign in securely with Google to share your feedback.
-                </p>
-              </div>
-
-              <motion.button
-                type="button"
-                className="google-review-button"
-                onClick={handleGoogleLogin}
-                whileHover={{
-                  scale: 1.02,
-                }}
-                whileTap={{
-                  scale: 0.98,
-                }}
-              >
-                <span className="google-g-mark">
-                  G
-                </span>
-
-                <span>
-                  Continue with Google
-                </span>
-
-                <span aria-hidden="true">
-                  ↗
-                </span>
-              </motion.button>
+            <div className="review-login-icon review-brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 32 32" role="presentation">
+                <path
+                  d="M7 8.5A4.5 4.5 0 0 1 11.5 4h9A4.5 4.5 0 0 1 25 8.5v7A4.5 4.5 0 0 1 20.5 20H15l-5.7 5.2a.8.8 0 0 1-1.3-.6V20.5A4.5 4.5 0 0 1 7 16.5z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M12 12.5h8M12 16h5"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                />
+              </svg>
             </div>
-          ) : (
-            <>
-              <div className="review-user-bar">
-                <div className="review-user-info">
-                  {user.avatar ? (
-                    <img
-                      src={user.avatar}
-                      alt=""
-                      className="review-avatar"
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : (
-                    <div className="review-avatar review-avatar-fallback">
-                      {user.name.charAt(0).toUpperCase()}
-                    </div>
-                  )}
 
-                  <div>
-                    <strong>
-                      {user.name}
-                    </strong>
+            <div>
+              <p className="review-login-title">
+                {editingId ? "EDIT YOUR REVIEW" : "SHARE YOUR EXPERIENCE"}
+              </p>
+              <p className="review-login-copy">
+                {editingId
+                  ? "Update your rating or review below."
+                  : "Leave a quick review directly. No login required."}
+              </p>
+            </div>
 
-                    <span>
-                      GOOGLE ACCOUNT
-                    </span>
-                  </div>
-                </div>
+          </div>
 
-                <button
+          <div className="review-field-group review-name-group">
+
+            <label
+              htmlFor="review-name"
+              className="review-field-label"
+            >
+              <span className="review-field-number">01</span>
+              YOUR NAME
+            </label>
+
+            <input
+              id="review-name"
+              type="text"
+              value={name}
+              onChange={(event) =>
+                handleNameChange(event.target.value)
+              }
+              placeholder="Enter your name"
+              maxLength={40}
+              autoComplete="name"
+              className="review-name-input"
+            />
+
+          </div>
+
+          <div className="review-rating-header">
+            <span className="review-field-label">
+              <span className="review-field-number">02</span>
+              YOUR RATING
+            </span>
+            <span className="review-rating-value">
+              {rating > 0 ? `${rating} / 5` : "SELECT"}
+            </span>
+          </div>
+
+          <div className="stars" aria-label="Select rating">
+            {[1, 2, 3, 4, 5].map((star) => {
+              const selected = star <= rating;
+
+              return (
+                <motion.button
+                  key={star}
                   type="button"
-                  className="review-signout"
-                  onClick={handleLogout}
+                  className={`star-button ${selected ? "active" : ""}`}
+                  onClick={() => setRating(star)}
+                  whileHover={{ y: -3, scale: 1.08 }}
+                  whileTap={{ scale: 0.92 }}
+                  aria-label={`${star} star${star > 1 ? "s" : ""}`}
+                  aria-pressed={selected}
                 >
-                  SIGN OUT
-                </button>
-              </div>
+                  ★
+                </motion.button>
+              );
+            })}
+          </div>
 
-              <div className="review-field-label">
-                YOUR RATING
-              </div>
+          <div className="review-field-group review-message-group">
 
-              <div
-                className="stars"
-                aria-label="Select rating"
-              >
+            <label
+              htmlFor="review-message"
+              className="review-field-label"
+            >
+              <span className="review-field-number">03</span>
+              YOUR REVIEW
+            </label>
 
-                {[1, 2, 3, 4, 5].map(
-                  (star) => {
-                    const selected =
-                      star <= rating;
-
-                    return (
-                      <motion.button
-                        key={star}
-                        type="button"
-                        className={`star-button ${
-                          selected
-                            ? "active"
-                            : ""
-                        }`}
-                        onClick={() =>
-                          setRating(star)
-                        }
-                        whileHover={{
-                          scale: 1.15,
-                        }}
-                        whileTap={{
-                          scale: 0.9,
-                        }}
-                        aria-label={`${star} star${
-                          star > 1
-                            ? "s"
-                            : ""
-                        }`}
-                        aria-pressed={
-                          selected
-                        }
-                      >
-                        ★
-                      </motion.button>
-                    );
-                  }
-                )}
-
-              </div>
-
-              <div className="review-field-label review-message-label">
-                YOUR MESSAGE
-              </div>
-
+            <div className="review-textarea-wrap">
               <textarea
+                id="review-message"
                 value={review}
                 onChange={(event) =>
-                  handleReviewChange(
-                    event.target.value
-                  )
+                  handleReviewChange(event.target.value)
                 }
-                placeholder="Write about your experience..."
+                placeholder="Write something about your experience..."
                 maxLength={400}
                 spellCheck
                 aria-label="Your review"
               />
 
-              <div className="review-bottom">
-                <span
-                  className={
-                    wordCount >= 50
-                      ? "word-limit"
-                      : ""
-                  }
-                >
-                  {wordCount} / 50 WORDS
+              <span className="textarea-corner">
+                MAX 50 WORDS
+              </span>
+            </div>
+
+          </div>
+
+          <div className="review-submit-row">
+
+            <div className="review-submit-note">
+              <span className="review-submit-dot" />
+              <span>
+                {wordCount} / 50 WORDS
+              </span>
+            </div>
+
+            <div className="review-action-group">
+
+              <motion.button
+                type="button"
+                className="review-publish-button"
+                disabled={!canSubmit}
+                onClick={handleSubmit}
+                whileHover={
+                  canSubmit ? { y: -2 } : undefined
+                }
+                whileTap={
+                  canSubmit ? { scale: 0.98 } : undefined
+                }
+              >
+                <span>
+                  {submitting
+                    ? editingId
+                      ? "SAVING..."
+                      : "POSTING..."
+                    : editingId
+                      ? "SAVE CHANGES"
+                      : "POST REVIEW"}
                 </span>
+                <span aria-hidden="true">↗</span>
+              </motion.button>
 
-                <motion.button
+              {editingId && (
+                <button
                   type="button"
-                  className="glass-action small"
-                  disabled={!canSubmit}
-                  onClick={handleSubmit}
-                  whileHover={
-                    canSubmit
-                      ? { scale: 1.04 }
-                      : undefined
-                  }
-                  whileTap={
-                    canSubmit
-                      ? { scale: 0.96 }
-                      : undefined
-                  }
+                  className="review-cancel-button"
+                  onClick={() => {
+                    resetReviewForm();
+                    setMessage("");
+                  }}
+                  disabled={submitting}
                 >
-                  <span>
-                    {submitting
-                      ? "POSTING..."
-                      : "PUBLISH REVIEW"}
-                  </span>
+                  CANCEL
+                </button>
+              )}
 
-                  <span aria-hidden="true">
-                    ↗
-                  </span>
-                </motion.button>
-              </div>
-            </>
-          )}
+            </div>
+
+          </div>
 
           {message && (
-            <p className="review-status">
+            <p
+              className={`review-status ${
+                message.includes("successfully") ? "success" : ""
+              }`}
+            >
               {message}
             </p>
           )}
@@ -1615,125 +1767,234 @@ function ReviewSection() {
       </div>
 
       <div className="review-list-section">
+
         <div className="review-list-heading">
+
           <div>
             <p className="eyebrow">
               COMMUNITY FEEDBACK
             </p>
-
             <h3>
               What people say
             </h3>
           </div>
 
-          <span className="review-count">
-            {reviews.length.toString().padStart(2, "0")} REVIEWS
-          </span>
+          <div className="review-list-meta">
+            <span className="review-count">
+              {reviews.length.toString().padStart(2, "0")} REVIEWS
+            </span>
+            <span className="review-list-line" />
+            <span>DXT / 003</span>
+          </div>
+
         </div>
 
         {loading ? (
-          <div className="review-empty-state">
-            LOADING REVIEWS...
+          <div className="review-empty-state review-loading-state">
+            <span className="review-loading-dot" />
+            LOADING COMMUNITY FEEDBACK
           </div>
         ) : reviews.length === 0 ? (
           <div className="review-empty-state">
-            <span>
-              ★★★★★
-            </span>
+            <div className="empty-stars">★★★★★</div>
             <p>
               Be the first to leave a review.
             </p>
+            <span>
+              YOUR FEEDBACK STARTS THE CONVERSATION.
+            </span>
           </div>
         ) : (
           <div className="review-list">
-            {reviews.map((item) => (
-              <motion.article
-                key={item.id}
-                className="review-comment-card"
-                initial={{
-                  opacity: 0,
-                  y: 10,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-              >
-                <div className="review-comment-top">
-                  <div className="review-comment-user">
-                    {item.user_avatar ? (
-                      <img
-                        src={item.user_avatar}
-                        alt=""
-                        className="review-comment-avatar"
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : (
+
+            {reviews.map((item) => {
+              const isOwner = ownedReviewIds.includes(item.id);
+
+              return (
+                <motion.article
+                  key={item.id}
+                  className="review-comment-card"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45 }}
+                >
+
+                  <div className="review-comment-top">
+
+                    <div className="review-comment-user">
+
                       <div className="review-comment-avatar review-avatar-fallback">
-                        {item.user_name
-                          .charAt(0)
-                          .toUpperCase()}
+                        {item.user_name.charAt(0).toUpperCase()}
                       </div>
-                    )}
 
-                    <div>
-                      <strong>
-                        {item.user_name}
-                      </strong>
+                      <div>
+                        <strong>
+                          {item.user_name}
+                        </strong>
+                        <span>
+                          {new Date(item.created_at).toLocaleDateString(
+                            undefined,
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            }
+                          )}
+                        </span>
+                      </div>
 
-                      <span>
-                        {new Date(
-                          item.created_at
-                        ).toLocaleDateString(
-                          undefined,
-                          {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          }
-                        )}
-                      </span>
                     </div>
-                  </div>
 
-                  <div
-                    className="review-comment-stars"
-                    aria-label={`${item.rating} out of 5 stars`}
-                  >
-                    {Array.from(
-                      { length: 5 },
-                      (_, index) => (
+                    <div
+                      className="review-comment-stars"
+                      aria-label={`${item.rating} out of 5 stars`}
+                    >
+                      {Array.from({ length: 5 }, (_, index) => (
                         <span
                           key={index}
-                          className={
-                            index < item.rating
-                              ? "filled"
-                              : ""
-                          }
+                          className={index < item.rating ? "filled" : ""}
                         >
                           ★
                         </span>
-                      )
-                    )}
-                  </div>
-                </div>
+                      ))}
+                    </div>
 
-                <p className="review-comment-text">
-                  {item.review}
-                </p>
-              </motion.article>
-            ))}
+                  </div>
+
+                  <p className="review-comment-text">
+                    {item.review}
+                    {item.is_edited && (
+                      <span className="review-edited-label">
+                        (Edited)
+                      </span>
+                    )}
+                  </p>
+
+                  <div
+                    className="review-reactions"
+                    aria-label="React to this review"
+                  >
+
+                    <button
+                      type="button"
+                      className={`review-reaction-button ${
+                        item.my_reaction === "heart"
+                          ? "selected heart-selected"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleReaction(item.id, "heart")
+                      }
+                      aria-label={
+                        item.my_reaction === "heart"
+                          ? "Remove heart reaction"
+                          : "React with heart"
+                      }
+                      aria-pressed={item.my_reaction === "heart"}
+                    >
+                      <span
+                        className="review-reaction-icon heart-icon"
+                        aria-hidden="true"
+                      >
+                        <svg viewBox="0 0 16 16" role="presentation">
+                          <path
+                            d="M4 2H2v2H0v4h2v2h2v2h2v2h2v-2h2v-2h2V8h2V4h-2V2h-4v2H6V2H4Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </span>
+                      {item.heart_count > 0 && (
+                        <span className="review-reaction-count">
+                          {item.heart_count}
+                        </span>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      className={`review-reaction-button ${
+                        item.my_reaction === "broken_heart"
+                          ? "selected broken-selected"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleReaction(item.id, "broken_heart")
+                      }
+                      aria-label={
+                        item.my_reaction === "broken_heart"
+                          ? "Remove broken heart reaction"
+                          : "React with broken heart"
+                      }
+                      aria-pressed={
+                        item.my_reaction === "broken_heart"
+                      }
+                    >
+                      <span
+                        className="review-reaction-icon broken-heart-icon"
+                        aria-hidden="true"
+                      >
+                        <svg viewBox="0 0 16 16" role="presentation">
+                          <path
+                            d="M2 2H6v2h2v3h2V5h2V2h2v2h2v4h-2v2h-2v2h-2v2H8v-2H6v-2H4V8H2V4H0V2h2Z"
+                            fill="currentColor"
+                          />
+                          <path
+                            d="M8 7 6.5 5.5 8 4l1.5 1.5L8 7Zm0 2 1.5 1.5L8 12l-1.5-1.5L8 9Z"
+                            fill="rgba(5,5,5,.72)"
+                          />
+                        </svg>
+                      </span>
+                      {item.broken_heart_count > 0 && (
+                        <span className="review-reaction-count">
+                          {item.broken_heart_count}
+                        </span>
+                      )}
+                    </button>
+
+                  </div>
+
+                  {isOwner && (
+                    <div className="review-comment-actions">
+
+                      <button
+                        type="button"
+                        className="review-edit-button"
+                        onClick={() => handleEdit(item)}
+                        disabled={deletingId === item.id}
+                      >
+                        EDIT
+                      </button>
+
+                      <button
+                        type="button"
+                        className="review-delete-button"
+                        onClick={() => handleDelete(item.id)}
+                        disabled={deletingId === item.id}
+                      >
+                        {deletingId === item.id ? "DELETING..." : "DELETE"}
+                      </button>
+
+                    </div>
+                  )}
+
+                </motion.article>
+              );
+            })}
+
           </div>
         )}
+
       </div>
 
     </OSWindow>
   );
+
 }
 
 /* =========================================================
    YOUTUBE PROJECT
 ========================================================= */
+
 
 function YouTubeProject({
   project,
