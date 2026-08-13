@@ -371,6 +371,21 @@ export default function Home() {
   const [portraitIntensity, setPortraitIntensity] =
     useState(0);
 
+  useEffect(() => {
+    const returnSection =
+      window.sessionStorage.getItem(
+        "dextro-review-return"
+      );
+
+    if (returnSection === "review") {
+      window.sessionStorage.removeItem(
+        "dextro-review-return"
+      );
+
+      setActive("review");
+    }
+  }, []);
+
   const handlePortraitMove = (
     event: React.MouseEvent<HTMLDivElement>
   ) => {
@@ -1056,50 +1071,95 @@ function ReviewSection() {
     !submitting;
 
   const loadReviews = async () => {
-    const { data, error } =
-      await supabase
-        .from("reviews")
-        .select(
-          "id, user_id, user_name, user_avatar, rating, review, created_at"
-        )
-        .order("created_at", {
-          ascending: false,
-        });
+    const {
+      data,
+      error,
+    } = await supabase
+      .from("reviews")
+      .select(
+        "id, user_id, user_name, user_avatar, rating, review, created_at"
+      )
+      .order("created_at", {
+        ascending: false,
+      });
 
-    if (!error && data) {
-      setReviews(data);
+    if (error) {
+      console.error(
+        "Supabase review load error:",
+        error
+      );
+
+      setMessage(
+        `Could not load reviews: ${error.message}`
+      );
+
+      return;
     }
+
+    setReviews(data ?? []);
   };
 
   useEffect(() => {
     let mounted = true;
 
-    const loadUser = async () => {
+    type Session = Awaited<
+      ReturnType<typeof supabase.auth.getSession>
+    >["data"]["session"];
+
+    const applySession = (session: Session) => {
+      if (!mounted) {
+        return;
+      }
+
+      if (!session?.user) {
+        setUser(null);
+        return;
+      }
+
+      const metadata =
+        session.user.user_metadata ?? {};
+
+      setUser({
+        id: session.user.id,
+        name:
+          metadata.full_name ||
+          metadata.name ||
+          session.user.email?.split("@")[0] ||
+          "Google User",
+        avatar:
+          metadata.avatar_url ||
+          metadata.picture ||
+          "",
+      });
+    };
+
+    const initialize = async () => {
+      setLoading(true);
+
       const {
-        data: { session },
+        data,
+        error,
       } = await supabase.auth.getSession();
 
-      if (!mounted) return;
-
-      if (session?.user) {
-        const metadata =
-          session.user.user_metadata ?? {};
-
-        setUser({
-          id: session.user.id,
-          name:
-            metadata.full_name ||
-            metadata.name ||
-            session.user.email?.split("@")[0] ||
-            "Google User",
-          avatar:
-            metadata.avatar_url ||
-            metadata.picture ||
-            "",
-        });
-      } else {
-        setUser(null);
+      if (!mounted) {
+        return;
       }
+
+      if (error) {
+        console.error(
+          "Session error:",
+          error
+        );
+
+        setMessage(
+          `Could not load your Google session: ${error.message}`
+        );
+
+        setLoading(false);
+        return;
+      }
+
+      applySession(data.session);
 
       await loadReviews();
 
@@ -1108,38 +1168,40 @@ function ReviewSection() {
       }
     };
 
-    loadUser();
+    void initialize();
 
+    /*
+     * Keep this callback synchronous.
+     * Supabase auth events are handled here, while
+     * database work is scheduled outside the callback.
+     */
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        if (!mounted) return;
+    } =
+      supabase.auth.onAuthStateChange(
+        (event, session) => {
+          if (!mounted) {
+            return;
+          }
 
-        if (session?.user) {
-          const metadata =
-            session.user.user_metadata ?? {};
+          applySession(session);
 
-          setUser({
-            id: session.user.id,
-            name:
-              metadata.full_name ||
-              metadata.name ||
-              session.user.email?.split("@")[0] ||
-              "Google User",
-            avatar:
-              metadata.avatar_url ||
-              metadata.picture ||
-              "",
-          });
-        } else {
-          setUser(null);
+          if (
+            event === "SIGNED_IN" ||
+            event === "INITIAL_SESSION" ||
+            event === "SIGNED_OUT"
+          ) {
+            setTimeout(() => {
+              if (!mounted) {
+                return;
+              }
+
+              void loadReviews();
+              setLoading(false);
+            }, 0);
+          }
         }
-
-        await loadReviews();
-        setLoading(false);
-      }
-    );
+      );
 
     return () => {
       mounted = false;
@@ -1149,6 +1211,11 @@ function ReviewSection() {
 
   const handleGoogleLogin = async () => {
     setMessage("");
+
+    window.sessionStorage.setItem(
+      "dextro-review-return",
+      "review"
+    );
 
     const {
       error,
@@ -1161,8 +1228,18 @@ function ReviewSection() {
     });
 
     if (error) {
+      window.sessionStorage.removeItem(
+        "dextro-review-return"
+      );
+
+      console.error(
+        "Google OAuth error:",
+        error
+      );
+
       setMessage(
-        "Google sign-in could not be started. Please try again."
+        error.message ||
+          "Google sign-in could not be started."
       );
     }
   };
@@ -1211,10 +1288,15 @@ function ReviewSection() {
         });
 
     if (error) {
-      console.error(error);
-      setMessage(
-        "Could not post your review. Please try again."
+      console.error(
+        "Supabase review insert error:",
+        error
       );
+
+      setMessage(
+        `Could not post your review: ${error.message}`
+      );
+
       setSubmitting(false);
       return;
     }
@@ -1585,60 +1667,12 @@ function YouTubeProject({
   const [hasError, setHasError] =
     useState(false);
 
-  /*
-   * Mobile performance mode:
-   * phones show the YouTube thumbnail first and do not
-   * create the YouTube iframe until the visitor taps Play.
-   */
-  const [isMobile, setIsMobile] =
-    useState(
-      () =>
-        typeof window !== "undefined" &&
-        window.matchMedia("(max-width: 700px)").matches
-    );
-
-  const [userActivated, setUserActivated] =
-    useState(false);
-
-  useEffect(() => {
-    const mediaQuery =
-      window.matchMedia("(max-width: 700px)");
-
-    const handleChange = () => {
-      setIsMobile(mediaQuery.matches);
-    };
-
-    handleChange();
-
-    mediaQuery.addEventListener(
-      "change",
-      handleChange
-    );
-
-    return () => {
-      mediaQuery.removeEventListener(
-        "change",
-        handleChange
-      );
-    };
-  }, []);
-
   /* =======================================================
      YOUTUBE PLAYER
   ======================================================= */
 
   useEffect(() => {
     let cancelled = false;
-
-    /*
-     * On phones, do not load the YouTube API or create an
-     * iframe until the visitor explicitly presses Play.
-     */
-    if (isMobile && !userActivated) {
-      return () => {
-        cancelled = true;
-      };
-    }
 
     const createPlayer = () => {
       if (
@@ -1798,8 +1832,6 @@ function YouTubeProject({
       }
     };
   }, [
-    isMobile,
-    userActivated,
     playerContainerId,
     project.youtubeId,
     project.start,
@@ -1811,17 +1843,6 @@ function YouTubeProject({
 
   const handleManualPlay =
     () => {
-      /*
-       * First tap on mobile activates the YouTube player.
-       * The effect above then creates the iframe and the
-       * onReady handler starts the video.
-       */
-      if (isMobile && !userActivated) {
-        setUserActivated(true);
-        setHasError(false);
-        return;
-      }
-
       if (!playerRef.current) {
         return;
       }
@@ -1883,24 +1904,6 @@ function YouTubeProject({
         </div>
 
         {/* =================================================
-            MOBILE THUMBNAIL / POSTER
-        ================================================= */}
-
-        <img
-          src={`https://i.ytimg.com/vi/${project.youtubeId}/hqdefault.jpg`}
-          alt=""
-          aria-hidden="true"
-          className="youtube-mobile-thumbnail"
-          style={{
-            opacity:
-              isMobile && !userActivated
-                ? 1
-                : 0,
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* =================================================
             YOUTUBE PLAYER
         ================================================= */}
 
@@ -1938,9 +1941,7 @@ function YouTubeProject({
             AUTOPLAY FALLBACK
         ================================================= */}
 
-        {((isMobile && !userActivated) ||
-          (!isMobile && !isPlaying)) &&
-          !hasError && (
+        {!isPlaying && !hasError && (
           <div className="youtube-autoplay-cover">
 
             <button
@@ -2017,12 +2018,11 @@ function YouTubeProject({
             LOADING
         ================================================= */}
 
-        {(!isMobile || userActivated) &&
-          !isLoaded && (
-            <div className="youtube-loading">
-              LOADING
-            </div>
-          )}
+        {!isLoaded && (
+          <div className="youtube-loading">
+            LOADING
+          </div>
+        )}
 
       </div>
 

@@ -3594,3 +3594,282 @@ img {
     font-size: 14px;
   }
 }
+
+
+/* =========================================================
+   DEXTRO — REVIEW / GOOGLE AUTH POLISH
+   Appended as overrides so the existing visual system stays intact.
+========================================================= */
+
+.review-layout {
+  grid-template-columns: minmax(240px, 0.72fr) minmax(420px, 1.28fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+}
+
+.review-layout > div:first-child {
+  padding-top: 12px;
+}
+
+.review-layout h2 {
+  margin-top: 12px;
+  font-size: clamp(42px, 6vw, 78px);
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.review-description {
+  max-width: 360px;
+  margin-top: 24px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.review-box {
+  padding: clamp(24px, 3vw, 34px);
+  border-radius: 26px;
+  border: 1px solid rgba(255,255,255,0.13);
+  background:
+    radial-gradient(circle at 85% 0%, rgba(255,255,255,0.08), transparent 34%),
+    linear-gradient(145deg, rgba(255,255,255,0.065), rgba(255,255,255,0.018));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.09),
+    0 22px 70px rgba(0,0,0,0.22);
+}
+
+.review-login-state {
+  min-height: 255px;
+  justify-content: center;
+  gap: 16px;
+}
+
+.review-login-icon {
+  width: 54px;
+  height: 54px;
+  font-size: 20px;
+  border-color: rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.075);
+}
+
+.review-login-title {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.62);
+}
+
+.review-login-copy {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.58);
+}
+
+.google-review-button {
+  min-height: 54px;
+  margin-top: 8px;
+  border-radius: 16px;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  background: rgba(255,255,255,0.075);
+  border-color: rgba(255,255,255,0.15);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 14px 35px rgba(0,0,0,0.18);
+}
+
+.google-review-button:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.105);
+  border-color: rgba(255,255,255,0.24);
+}
+
+.google-g-mark {
+  width: 25px;
+  height: 25px;
+  font-size: 13px;
+}
+
+.review-user-bar {
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+}
+
+.review-user-info strong,
+.review-comment-user strong {
+  font-size: 13px;
+  color: rgba(255,255,255,0.92);
+}
+
+.review-user-info span,
+.review-comment-user span {
+  font-size: 7px;
+  color: rgba(255,255,255,0.38);
+}
+
+.review-avatar,
+.review-comment-avatar {
+  width: 42px;
+  height: 42px;
+  flex-basis: 42px;
+}
+
+.review-signout {
+  font-size: 7px;
+  padding: 8px 11px;
+  color: rgba(255,255,255,0.48);
+}
+
+.stars {
+  gap: 8px;
+  margin: 4px 0 20px;
+}
+
+.star-button {
+  width: 38px;
+  height: 38px;
+  font-size: 28px;
+}
+
+.review-box textarea {
+  min-height: 155px;
+  padding: 18px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.92);
+  background: rgba(0,0,0,0.24);
+}
+
+.review-box textarea::placeholder {
+  color: rgba(255,255,255,0.34);
+}
+
+.review-bottom {
+  margin-top: 16px;
+}
+
+.review-bottom > span {
+  font-size: 8px;
+  color: rgba(255,255,255,0.38);
+}
+
+.glass-action.small {
+  min-height: 42px;
+  padding: 0 16px;
+  font-size: 8px;
+}
+
+.review-status {
+  margin-top: 14px;
+  padding: 11px 13px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.035);
+  font-size: 8px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.62);
+}
+
+.review-list-section {
+  margin-top: 52px;
+  padding-top: 30px;
+}
+
+.review-list-heading h3 {
+  color: rgba(255,255,255,0.94);
+}
+
+.review-count {
+  font-size: 8px;
+  color: rgba(255,255,255,0.36);
+}
+
+.review-comment-card {
+  padding: 20px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.032);
+  border-color: rgba(255,255,255,0.09);
+}
+
+.review-comment-text {
+  margin-top: 15px;
+  margin-left: 53px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.64);
+}
+
+.review-comment-stars {
+  font-size: 11px;
+}
+
+.review-empty-state {
+  min-height: 130px;
+  font-size: 8px;
+}
+
+.review-empty-state span {
+  font-size: 18px;
+}
+
+/* Mobile review layout */
+@media (max-width: 800px) {
+  .review-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .review-layout > div:first-child {
+    padding-top: 0;
+  }
+
+  .review-layout h2 {
+    font-size: clamp(42px, 14vw, 64px);
+  }
+
+  .review-description {
+    max-width: 100%;
+    margin-top: 18px;
+    font-size: 13px;
+  }
+
+  .review-box {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .review-login-state {
+    min-height: 225px;
+  }
+
+  .review-comment-top {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .review-comment-text {
+    margin-left: 0;
+    font-size: 13px;
+  }
+
+  .review-bottom {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .review-bottom .glass-action.small {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Keep review UI cheap on phones */
+@media (max-width: 700px) {
+  .review-box,
+  .review-comment-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
