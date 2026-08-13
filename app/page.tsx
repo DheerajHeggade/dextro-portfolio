@@ -1503,7 +1503,10 @@ function ReviewSection() {
       );
 
       if (ownedIds) {
-        setOwnedReviewIds(ownedIds as string[]);
+        setOwnedReviewIds(
+          (ownedIds as Array<{ review_id: string }>)
+            .map((row) => row.review_id)
+        );
       }
     }
 
