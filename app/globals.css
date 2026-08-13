@@ -4770,3 +4770,235 @@ img {
 @media (hover:none) {
   .creative-collaboration:hover { transform:none; }
 }
+
+/* =========================================================
+   DEXTRO REVIEW SOCIAL LINKS
+   ========================================================= */
+
+.review-social-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+.review-social-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 48px;
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  color: #fff;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.review-social-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: linear-gradient(
+    120deg,
+    #ff1f1f 0%,
+    #ff4d4d 48%,
+    #a40000 100%
+  );
+  transition: opacity 180ms ease;
+}
+
+.review-social-x {
+  background: #111;
+}
+
+.review-social-instagram {
+  background: linear-gradient(
+    135deg,
+    #833ab4 0%,
+    #fd1d1d 52%,
+    #fcb045 100%
+  );
+}
+
+.review-social-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 70, 70, 0.8);
+  box-shadow: 0 10px 30px rgba(255, 30, 30, 0.22);
+}
+
+.review-social-button:hover::before {
+  opacity: 1;
+}
+
+.review-social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.review-social-button:focus-visible {
+  outline: 2px solid #ff4545;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .review-social-links {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 20px;
+  }
+
+  .review-social-button {
+    min-height: 50px;
+    width: 100%;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-social-button,
+  .review-social-button::before {
+    transition: none;
+  }
+
+  .review-social-button:hover {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   DEXTRO REVIEW SOCIAL LINKS
+   ========================================================= */
+
+.review-social-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+.review-social-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 48px;
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  color: #fff;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.review-social-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: linear-gradient(
+    120deg,
+    #ff1f1f 0%,
+    #ff4d4d 48%,
+    #a40000 100%
+  );
+  transition: opacity 180ms ease;
+}
+
+.review-social-x {
+  background: #111;
+}
+
+.review-social-instagram {
+  background: linear-gradient(
+    135deg,
+    #833ab4 0%,
+    #fd1d1d 52%,
+    #fcb045 100%
+  );
+}
+
+.review-social-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 70, 70, 0.8);
+  box-shadow: 0 10px 30px rgba(255, 30, 30, 0.22);
+}
+
+.review-social-button:hover::before {
+  opacity: 1;
+}
+
+.review-social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.review-social-button:focus-visible {
+  outline: 2px solid #ff4545;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .review-social-links {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 20px;
+  }
+
+  .review-social-button {
+    min-height: 50px;
+    width: 100%;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-social-button,
+  .review-social-button::before {
+    transition: none;
+  }
+
+  .review-social-button:hover {
+    transform: none;
+  }
+}

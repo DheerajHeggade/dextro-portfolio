@@ -1545,6 +1545,32 @@ function ReviewSection() {
             <span>03</span><span>SHARE</span>
           </div>
 
+          <div className="review-social-links" aria-label="Social links">
+            <a
+              href="https://x.com/dheerajheggadeu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="review-social-button review-social-x"
+              aria-label="Follow Dheeraj on X"
+            >
+              <span className="review-social-icon" aria-hidden="true">𝕏</span>
+              <span>FOLLOW ON X</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+
+            <a
+              href="https://www.instagram.com/dextro.kannada/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="review-social-button review-social-instagram"
+              aria-label="Follow DEXTRO Kannada on Instagram"
+            >
+              <span className="review-social-icon" aria-hidden="true">◎</span>
+              <span>INSTAGRAM</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
         </div>
 
         <div className="review-box">
@@ -2378,5 +2404,6 @@ function YouTubeProject({
       </div>
 
     </motion.article>
+
   );
 }
